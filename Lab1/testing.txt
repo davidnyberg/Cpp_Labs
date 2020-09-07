@@ -1,0 +1,7 @@
+Open file
+Opens the file identified by argument filename, associating it with the stream object, so that input/output operations are performed on its content. Argument mode specifies the opening mode.
+
+If the stream is already associated with a file (i.e., it is already open), calling this function fails.
+
+The file association of a stream is kept by its internal stream buffer:
+Internally, the function calls rdbuf() open(filename,mode)
