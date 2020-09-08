@@ -1,88 +1,90 @@
 #include <iostream>
 #include <string>
+#include <iomanip>
 
-int main()
-{
+using namespace std;
+
+int main() {
     int i;
     double d;
     float f;
     char c;
-    std::string s;
+    string s;
 
-    //std::cout << "Enter one integer: ";
-    //std::cin >> i;
-    //std::cout << "You entered the number: " << i << std::endl;
+    cout << "Enter one integer: ";
+    cin >> i;
+    cout << "You entered the number: " << i << endl << endl;
 
-
-//  THIS IS NOT WORKING : TODO
-    //std::cout << "Enter four integers: ";
-    //std::cin >> i;
-    //std::cin.ignore(10, " ");
-    //std::cout << "You entered the numbers: " << i << std::endl;
+    cout << "Enter four integers: ";
+    cin >> i;
+    cout << "You entered the numbers: " << i << " ";
+    cin >> i;
+    cout << i << " ";
+    cin >> i;
+    cout << i << " ";
+    cin >> i;
+    cout << i;
+    cout << endl << endl;;
     
+    cout << "Enter one integer and one real number: ";
+    cin >> i;
+    cin >> f;
+    cout << setprecision(4);
+    cout << "The real is: \t\t" << f << endl;
+    cout << "The integer is: \t" << i << endl << endl;
+
+    cout << "Enter one real and one integer number: ";
+    cin >> f;
+    cin >> i;
+    cout << setprecision(4);
+    cout << "The real is:  ......" << f << endl;
+    cout << "The integer is:  ...." << i << endl << endl;
+
+    cout << "Enter a character: ";
+    cin >> c;
+    cout << "You entered: " << c << endl << endl;
+
+    cout << "Enter a word: ";
+    cin >> s;
+    cout << "The word '" << s << "' has " << s.length() << " character(s)." << endl << endl;
+
+    cout << "Enter an integer and a word: ";
+    cin >> i >> s;
+    cout << "You entered '" << i << "' and '" << s << "'.\n" << endl;
+
+    cout << "Enter a character and a word: ";
+    cin >> c >> s;
+    cout << "You entered the string \"" << s << "\" and the character '" << c << "'." << endl << endl;
+
+    cout << "Enter a word and a real number: ";
+    cin >> s >> f;
+    cout << setprecision(3);
+    cout << "You entered \"" << s << "\" and \"" << f << "\".\n" << endl;
 
     /*
-    std::cout << "Enter one integer and one real number: ";
-    std::cin >> i;
-    std::cin >> f;
-    std::cout << "The real is: \t" << f << std::endl;
-    std::cout << "The integer is: \t" << i << std::endl;
+    https://stackoverflow.com/questions/25475384/when-and-why-do-i-need-to-use-cin-ignore-in-c
+    https://www.tutorialspoint.com/what-is-the-use-of-cin-ignore-in-cplusplus
+    Getline was getting 'Enter' (newline) from previous prompt, 
+    fix is to ignore output between character input and line input
     */
 
-    /*
-    std::cout << "Enter one real and one integer number: ";
-    std::cin >> f;
-    std::cin >> i;
-    std::cout << "The real is:  ......" << f << std::endl;
-    std::cout << "The integer is:  ......" << i << std::endl;
-    */
+    //clear buffer, aka ignore one newline char in the buffer
+    cin.ignore(1, '\n');
+    cout << "Enter a text-line: ";
+    getline(cin, s);
+    cout << "You entered: \"" << s << "\""<< endl << endl;
 
-   /*
-    std::cout << "Enter a character: ";
-    std::cin >> c;
-    std::cout << "You entered: " << c << std::endl;
-*/
-    /*
-    std::cout << "Enter a word: ";
-    std::cin >> s;
-    std::cout << "The word " << s << " has " << s.length() << " character(s).";
-    */
+    cout << "Enter a second line of text: ";
+    getline(cin, s);
+    cout << "You entered: '" << s << "\"\n"<< endl;
 
-   /*
-    std::cout << "Enter an integer and a word: ";
-    std::cin >> i >> s;
-    std::cout << "You entered " << i << " and " << s << ".\n";
-*/
-
-    /*
-    std::cout << "Enter a character and a word: ";
-    std::cin >> c >> s;
-    std::cout << "You entered the string " << s << " and the character " << c << ".\n";
-    */
-
-   /*
-    std::cout << "Enter a word and a real number: ";
-    std::cin >> s >> f;
-    //maybe need to add precision of three decimals according to lab report
-    std::cout << "You entered " << s << " and " << f << ".\n";
-*/
-
-    /*
-    std::cout << "Enter a text-line: ";
-    std::getline(std::cin, s);
-    std::cout << "You entered: " << s << std::endl;
-    */
-/*
-    std::cout << "Enter a second line of text: ";
-    std::getline(std::cin, s);
-    std::cout << "You entered: " << s << std::endl;
-*/
-
-    //TODO: Finish this one
-
-    //std::cout << "Enter three words: ";
-    //std::cin >> s;
-    //std::cout << "You entered: " << s << std::endl;
+    cout << "Enter three words: ";
+    cin >> s;
+    cout << "You entered: '" << s << " ";
+    cin >> s;
+    cout << s << " ";
+    cin >> s;
+    cout << s << "'" << endl;
 
     return 0;
 }
