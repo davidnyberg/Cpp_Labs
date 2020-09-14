@@ -22,9 +22,58 @@ TEST_CASE("TO_STRING") {
     Time t{12, 30, 30};
     CHECK(toString(t, true) == "12:30:30");
     CHECK(toString(t, 1) == "12:30:30");
-    //TODO: FIX THIS CASE
-    //CHECK(toString(t, 0) == "12:30:30 pm");
+    CHECK(toString(t, 0) == "12:30:30 pm");
     Time t1{15, 50, 25};
     //Need to fix the 0 before the 3 in return
-    CHECK(toString(t1, false) == "03:50:25 pm");
+    CHECK(toString(t1, false) == "3:50:25 pm");
 }
+
+TEST_CASE("IS_AM") {
+    Time t{15, 1, 1};
+    CHECK(isAM(t) == false);
+    Time t2{03,30,30};
+    CHECK(isAM(t2) == true);
+}
+
+TEST_CASE("OPERATOR+") {
+    Time t;
+    Time new_t = t + 5;
+    CHECK(new_t.seconds == 05);
+    //check that original t is unchanged
+    CHECK(t.seconds == 0);
+
+    Time t2{1,1,1};
+    Time t3{5,5,5};
+    Time add_res{6, 6, 6};
+    CHECK(t2 + t3 == add_res);
+}
+
+TEST_CASE("OPERATOR-") {
+    Time t{10,10,10};
+    Time new_t = t - 5;
+    CHECK(new_t.seconds == 05);
+    //check that original t is unchanged
+    CHECK(t.seconds == 10);
+
+    Time t2{1,1,1};
+    Time t3{5,5,5};
+    Time sub_res{4, 4, 4};
+    CHECK(t3 - t2 == sub_res);
+}
+
+TEST_CASE("OPERATOR==") {
+    Time t{12,12,12};
+    Time t1{12,12,12};
+    Time t2{};
+    CHECK((t == t1) == true);
+    CHECK((t == t2) == false);
+}
+
+TEST_CASE("OPERATOR!=") {
+    Time t{12,12,12};
+    Time t1{12,12,12};
+    Time t2{};
+    CHECK((t != t1) == false);
+    CHECK((t != t2) == true);
+}
+
