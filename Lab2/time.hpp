@@ -1,4 +1,4 @@
-
+#include <string>
 
 struct Time {
     int hours{};
@@ -6,6 +6,8 @@ struct Time {
     int seconds{};
 };
 
+std::string toString(Time & t, bool b);
+bool isValid(Time const& t);
 
 Time operator++(Time const& t);
 Time operator++(Time const& t, int);
