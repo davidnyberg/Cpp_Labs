@@ -77,3 +77,44 @@ TEST_CASE("OPERATOR!=") {
     CHECK((t != t2) == true);
 }
 
+TEST_CASE("OPERATOR++") {
+    Time t{12, 40, 50};
+    //t++; Doesnt work
+    ++t;
+    Time t1{12, 40, 51};
+    CHECK(t.seconds == t1.seconds);
+}
+
+TEST_CASE("OPERATOR--") {
+    Time t{12, 40, 50};
+    //t--; Doesnt work
+    --t;
+    Time t1{12, 40, 49};
+    CHECK(t.seconds == t1.seconds);
+}
+
+TEST_CASE("OPERATOR>") {
+    Time t1{12,20,55};
+    Time t2{15,35,40};
+    CHECK((t1 > t2) == false);
+}
+
+TEST_CASE("OPERATOR<") {
+    Time t1{12,20,55};
+    Time t2{15,35,40};
+    CHECK((t1 < t2) == true);
+}
+
+TEST_CASE("OPERATOR>=") {
+    Time t1{12,20,55};
+    Time t2{15,35,40};
+    CHECK((t1 >= t2) == false);
+    CHECK((t1 >= t1) == true);
+}
+
+TEST_CASE("OPERATOR<=") {
+    Time t1{12,20,55};
+    Time t2{15,35,40};
+    CHECK((t1 <= t2) == true);
+    CHECK((t1 <= t1) == true);
+}

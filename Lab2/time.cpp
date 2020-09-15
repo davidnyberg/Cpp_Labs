@@ -46,20 +46,28 @@ bool isAM(Time const& t) {
     return false;
 }
 
-Time operator++(Time const& t) {
-
+//prefix
+Time& operator++(Time& t) {
+    ++t.seconds;
+    return t;
 }
 
-Time operator++(Time const& t, int) {
-
+//postfix includes an int 0 to match this function
+Time operator++(Time& t, int) {
+    Time temp{t.hours, t.minutes, t.seconds};
+    ++temp.seconds;
+    return temp;
 }
 
-Time operator--(Time const& t) {
-
+Time& operator--(Time& t) {
+    --t.seconds;
+    return t;
 }
 
-Time operator--(Time const& t, int) {
-
+Time operator--(Time& t, int) {
+    Time temp{t.hours, t.minutes, t.seconds};
+    --temp.seconds;
+    return temp;
 }
 
 Time operator+(Time const& t1, Time const& t2) {
@@ -85,19 +93,39 @@ Time operator-(Time const& t, int i) {
 }
 
 bool operator>(Time const& lhs, Time const& rhs) {
-
+    if(lhs.hours == rhs.hours) {
+        if(lhs.minutes == rhs.minutes) {
+            return lhs.seconds > rhs.seconds;
+        } else {
+            return lhs.minutes > rhs.minutes;
+        }
+    } else {
+        return lhs.hours > rhs.hours;
+    }
 }
 
 bool operator<(Time const& lhs, Time const& rhs) {
-
+    //simply check greater than, then negate the result
+    return !(lhs > rhs);
 }
 
-bool operator>=(Time const& lhs, Time const& rhs) {
-
+bool operator>=(Time const& lhs, Time const& rhs)  {
+    if(lhs.hours == rhs.hours) {
+        if(lhs.minutes == rhs.minutes) {
+            return lhs.seconds >= rhs.seconds;
+        } else {
+            return lhs.minutes >= rhs.minutes;
+        }
+    } else {
+        return lhs.hours >= rhs.hours;
+    }
 }
 
 bool operator<=(Time const& lhs, Time const& rhs) {
-
+    if (lhs == rhs) {
+        return true;
+    }
+    return !(lhs >= rhs);
 }
 
 bool operator!=(Time const& lhs, Time const& rhs) {
