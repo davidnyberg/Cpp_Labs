@@ -1,6 +1,8 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include "time.hpp"
+#include <iostream>
+#include <string>
 
 
 TEST_CASE("INIT") {
@@ -117,4 +119,15 @@ TEST_CASE("OPERATOR<=") {
     Time t2{15,35,40};
     CHECK((t1 <= t2) == true);
     CHECK((t1 <= t1) == true);
+}
+
+TEST_CASE("OPERATOR<<") {
+    Time t{15, 25, 35};
+    //How do you test this operator?
+    //std::string s =  operator<<(std::cout, t);
+    //CHECK(operator<<(std::cout, t) == "15:25:30");
+}
+
+TEST_CASE("OPERATOR>>") {
+    //How do you test this?
 }

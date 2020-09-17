@@ -1,4 +1,5 @@
 #include "time.hpp"
+#include <iostream>
 
 using namespace std;
 
@@ -136,4 +137,13 @@ bool operator!=(Time const& lhs, Time const& rhs) {
 bool operator==(Time const& lhs, Time const& rhs) {
     return lhs.hours == rhs.hours && lhs.minutes == rhs.minutes &&
             lhs.seconds == rhs.seconds;
+}
+
+ostream& operator<<(ostream& os, Time const& t) {
+    cout << to_string(t.hours) + ":" + to_string(t.minutes) + ":" + to_string(t.seconds);
+}
+istream& operator>>(istream& is, Time& t) {
+    cin >> t;
+    std::cout << t;
+    //split on : - how to do this in cpp without stringstream.
 }

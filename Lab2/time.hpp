@@ -27,4 +27,5 @@ bool operator<=(Time const& lhs, Time const& rhs);
 bool operator!=(Time const& lhs, Time const& rhs);
 bool operator==(Time const& lhs, Time const& rhs);
 
-
+std::ostream& operator<<(std::ostream& os, Time const& t);
+std::istream& operator>>(std::istream& is, Time& t);
