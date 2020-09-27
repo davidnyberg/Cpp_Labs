@@ -123,10 +123,13 @@ TEST_CASE("OPERATOR<=") {
 
 TEST_CASE("OPERATOR<<") {
     Time t{15, 25, 35};
-    //std::string s =  operator<<(std::cout, t);
-    //CHECK(operator<<(std::cout, t) == "15:25:30");
+    std::ostringstream oss{};
+    oss << t;
+    CHECK(oss.str() == "15:25:35");
 }
 
 TEST_CASE("OPERATOR>>") {
-    
+    Time t{15, 25, 35};
+    std::istringstream iss{"15:25:35"};
+    CHECK(iss.str() == "15:25:35");   
 }

@@ -23,8 +23,6 @@ int main() {
         int longest_temp = word.length();
         int shortest_temp = word.length();
 
-
-
         if (shortest_temp < shortest) {
             shortest = shortest_temp;
             shortest_word = word;
@@ -36,7 +34,7 @@ int main() {
         count++; 
     }
 
-    std::cout << total_word_length << count << std::endl;
+    //std::cout << total_word_length << count << std::endl;
     average = total_word_length/count;
 
     std::cout << "There are " << count << " words in the file." << std::endl;

@@ -27,6 +27,7 @@ int main() {
     stringstream(s) >> i;
     cout << "You entered the number: " << i << endl << endl;
 
+    //previous solution was to use getline, but could return strings and extra ints instead of just ints
     cout << "Enter four integers: ";
     cin >> i;
     cout << "You entered the numbers: " << i << " ";

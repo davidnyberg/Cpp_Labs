@@ -33,7 +33,7 @@ int main() {
     cin >> stride;
     
     //Checks that is greater than 0.01
-    while(stride <  static_cast<float>(0.01)) {
+    while(stride <  0.01) {
         cout << "ERROR: Stride must be at least 0.01" << endl;
         cout << "Enter stride: ";
         cin >> stride;

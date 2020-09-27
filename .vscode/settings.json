@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "istream": "cpp",
+        "limits": "cpp",
+        "ios": "cpp",
+        "ostream": "cpp",
+        "filesystem": "cpp",
+        "random": "cpp"
+    }
+}

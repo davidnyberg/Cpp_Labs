@@ -8,7 +8,7 @@ Input: time object, and a boolean
 true = 24 hour time, false = am/pm
 Output: Time formatted as a string
 */
-string toString(Time & t, bool b) {
+string toString(Time& t, bool b) {
     if (b) {
         //format: "14:21:23"
         return to_string(t.hours) + ":" + to_string(t.minutes) + 
@@ -49,6 +49,7 @@ bool isAM(Time const& t) {
 
 //prefix
 Time& operator++(Time& t) {
+    //implement check for 60 seconds/mins/hours
     ++t.seconds;
     return t;
 }
@@ -61,6 +62,7 @@ Time operator++(Time& t, int) {
 }
 
 Time& operator--(Time& t) {
+    //check if seocnds less than zero
     --t.seconds;
     return t;
 }
@@ -125,7 +127,7 @@ bool operator>=(Time const& lhs, Time const& rhs)  {
 bool operator<=(Time const& lhs, Time const& rhs) {
     if (lhs == rhs) {
         return true;
-    }
+    } 
     return !(lhs >= rhs);
 }
 
@@ -141,11 +143,10 @@ bool operator==(Time const& lhs, Time const& rhs) {
 
 ostream& operator<<(ostream& os, Time const& t) {
     os << to_string(t.hours) + ":" + to_string(t.minutes) + ":" + to_string(t.seconds);
-    os.setstate(ios_base::goodbit);
     return os;
 }
+
 istream& operator>>(istream& is, Time& t) {
     is >> t.hours >> t.minutes >> t.seconds;
-    is.setstate(ios_base::goodbit);
     return is;
 }
