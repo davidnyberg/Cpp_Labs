@@ -140,10 +140,12 @@ bool operator==(Time const& lhs, Time const& rhs) {
 }
 
 ostream& operator<<(ostream& os, Time const& t) {
-    cout << to_string(t.hours) + ":" + to_string(t.minutes) + ":" + to_string(t.seconds);
+    os << to_string(t.hours) + ":" + to_string(t.minutes) + ":" + to_string(t.seconds);
+    os.setstate(ios_base::goodbit);
+    return os;
 }
 istream& operator>>(istream& is, Time& t) {
-    cin >> t;
-    std::cout << t;
-    //split on : - how to do this in cpp without stringstream.
+    is >> t.hours >> t.minutes >> t.seconds;
+    is.setstate(ios_base::goodbit);
+    return is;
 }

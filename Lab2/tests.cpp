@@ -123,11 +123,10 @@ TEST_CASE("OPERATOR<=") {
 
 TEST_CASE("OPERATOR<<") {
     Time t{15, 25, 35};
-    //How do you test this operator?
     //std::string s =  operator<<(std::cout, t);
     //CHECK(operator<<(std::cout, t) == "15:25:30");
 }
 
 TEST_CASE("OPERATOR>>") {
-    //How do you test this?
+    
 }
