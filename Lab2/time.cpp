@@ -64,7 +64,7 @@ bool isAM(Time const& t) {
 
 //prefix
 Time& operator++(Time& t) {
-    // check for 60 seconds/mins/hours
+    // check for 60 seconds/mins/ 24hours
     ++t.seconds;
         if (t.seconds > 60) {
         t.seconds = t.seconds - 60;
@@ -252,6 +252,11 @@ ostream& operator<<(ostream& os, Time const& t) {
 }
 
 istream& operator>>(istream& is, Time& t) {
+    //no error checking here - assuming correct input as stated in assigment
     is >> t.hours >> t.minutes >> t.seconds;
+    //if the new time object is not valid - set the failbit flag
+    if (!isValid(t)) {
+        is.setstate(ios_base::failbit);
+    }
     return is;
 }

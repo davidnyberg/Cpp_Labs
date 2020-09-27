@@ -91,18 +91,24 @@ TEST_CASE("OPERATOR!=") {
 
 TEST_CASE("OPERATOR++") {
     Time t{12, 40, 50};
-    //t++; Doesnt work
+    Time res{12, 40, 51};
+    CHECK(t++ == res);  //shows that it increments,
+    //shows that the original seconds is unchanged,because postfix returns a new object
+    CHECK(t.seconds == 50);
     ++t;
-    Time t1{12, 40, 51};
-    CHECK(t.seconds == t1.seconds);
+    //shows that prefix correctly changes the t object
+    CHECK(t.seconds == 51);
 }
 
 TEST_CASE("OPERATOR--") {
     Time t{12, 40, 50};
-    //t--; Doesnt work
+    Time res{12, 40, 49};
+    CHECK(t-- == res); //shows the decrement
+    //shows that the original seconds is unchanged, because postfix returns a new object
+    CHECK(t.seconds == 50);
     --t;
-    Time t1{12, 40, 49};
-    CHECK(t.seconds == t1.seconds);
+    //shows that prefix correctly changes the t object
+    CHECK(t.seconds == 49);
 }
 
 TEST_CASE("OPERATOR>") {
