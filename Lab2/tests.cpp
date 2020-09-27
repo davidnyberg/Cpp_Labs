@@ -48,6 +48,12 @@ TEST_CASE("OPERATOR+") {
     Time t3{5,5,5};
     Time add_res{6, 6, 6};
     CHECK(t2 + t3 == add_res);
+
+    //testing some error handing of > 60 seconds - same logic with all other tests
+    Time t4{05, 30, 60};
+    Time t5 = t4 + 5;
+    CHECK(t5.seconds == 5);
+    CHECK(t5.minutes == 31);
 }
 
 TEST_CASE("OPERATOR-") {
@@ -61,6 +67,10 @@ TEST_CASE("OPERATOR-") {
     Time t3{5,5,5};
     Time sub_res{4, 4, 4};
     CHECK(t3 - t2 == sub_res);
+
+    Time t5{15,30,0};
+    Time res{14, 28, 59};
+    CHECK(t5 - t2 == res);
 }
 
 TEST_CASE("OPERATOR==") {
