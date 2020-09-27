@@ -11,18 +11,33 @@ Output: Time formatted as a string
 string toString(Time& t, bool b) {
     if (b) {
         //format: "14:21:23"
-        return to_string(t.hours) + ":" + to_string(t.minutes) + 
-                ":" + to_string(t.seconds);
+        if(t.hours < 10){
+            return "0" + to_string(t.hours) + ":" + to_string(t.minutes) +
+                   ":" + to_string(t.seconds);
+        }else{
+            return to_string(t.hours) + ":" + to_string(t.minutes) +
+                   ":" + to_string(t.seconds);
+        }
     } else {
         //format: "02:30:21 am"
+        // add 0 before for nice format
+
         if (t.hours > 12) {
+            if(t.hours - 12 < 10){
+                return "0" + to_string(t.hours - 12) + ":" + to_string(t.minutes) +
+                       ":" + to_string(t.seconds) + " pm";
+            }
             return to_string(t.hours - 12) + ":" + to_string(t.minutes) + 
                 ":" + to_string(t.seconds) + " pm";
         } else if(t.hours == 12) {
             return to_string(t.hours) + ":" + to_string(t.minutes) + 
                 ":" + to_string(t.seconds) + " pm";
         } else {
-            return to_string(t.hours) + ":" + to_string(t.minutes) + 
+            if(t.hours < 10){
+                return "0" + to_string(t.hours - 12) + ":" + to_string(t.minutes) +
+                       ":" + to_string(t.seconds) + " pm";
+            }
+            return to_string(t.hours) + ":" + to_string(t.minutes) +
                 ":" + to_string(t.seconds) + " am";
         }
     }

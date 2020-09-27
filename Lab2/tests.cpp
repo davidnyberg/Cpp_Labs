@@ -17,17 +17,17 @@ TEST_CASE("VALIDATE_TIME") {
     CHECK(isValid(t) == true);
 
     Time t1{10, 30, 30};
-    CHECK(isValid(t) == true);
+    CHECK(isValid(t1) == true);
 }
 
 TEST_CASE("TO_STRING") {
     Time t{12, 30, 30};
-    CHECK(toString(t, true) == "12:30:30");
+    CHECK(toString(t, true) == "12:30:30"); //true and 1 is same thing lol, just trying it out
     CHECK(toString(t, 1) == "12:30:30");
     CHECK(toString(t, 0) == "12:30:30 pm");
     Time t1{15, 50, 25};
     //Need to fix the 0 before the 3 in return
-    CHECK(toString(t1, false) == "3:50:25 pm");
+    CHECK(toString(t1, false) == "03:50:25 pm");
 }
 
 TEST_CASE("IS_AM") {
