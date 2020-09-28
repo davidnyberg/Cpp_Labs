@@ -16,8 +16,8 @@ TEST_CASE("VALIDATE_TIME") {
     Time t;
     CHECK(isValid(t) == true);
 
-    Time t1{10, 30, 30};
-    CHECK(isValid(t1) == true);
+    Time t1{-1, 30, 30};
+    CHECK_FALSE(isValid(t1));
 }
 
 TEST_CASE("TO_STRING") {
@@ -91,24 +91,30 @@ TEST_CASE("OPERATOR!=") {
 
 TEST_CASE("OPERATOR++") {
     Time t{12, 40, 50};
+    Time t1{12, 40, 50};
     Time res{12, 40, 51};
-    CHECK(t++ == res);  //shows that it increments,
-    //shows that the original seconds is unchanged,because postfix returns a new object
-    CHECK(t.seconds == 50);
-    ++t;
+    Time res2{12, 40, 52};
+
+    Time copy = t++;
+    CHECK(copy == t1);
+    CHECK_FALSE(t == t1);
+
     //shows that prefix correctly changes the t object
-    CHECK(t.seconds == 51);
+    ++t;
+    CHECK(t == res2);
 }
 
 TEST_CASE("OPERATOR--") {
     Time t{12, 40, 50};
     Time res{12, 40, 49};
-    CHECK(t-- == res); //shows the decrement
-    //shows that the original seconds is unchanged, because postfix returns a new object
-    CHECK(t.seconds == 50);
-    --t;
+
+    Time copy = t--;
+    CHECK(copy == Time{12, 40, 50});
+    CHECK(t == res);
+
     //shows that prefix correctly changes the t object
-    CHECK(t.seconds == 49);
+    --t;
+    CHECK(t == Time{12, 40, 48});
 }
 
 TEST_CASE("OPERATOR>") {
@@ -145,7 +151,9 @@ TEST_CASE("OPERATOR<<") {
 }
 
 TEST_CASE("OPERATOR>>") {
-    Time t{15, 25, 35};
+    Time t{};
     std::istringstream iss{"15:25:35"};
-    CHECK(iss.str() == "15:25:35");   
+    iss >> t;
+    CHECK(toString(t, true) == "15:25:35");
+    CHECK(!iss.fail());
 }

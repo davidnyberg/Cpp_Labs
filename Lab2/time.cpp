@@ -8,7 +8,7 @@ Input: time object, and a boolean
 true = 24 hour time, false = am/pm
 Output: Time formatted as a string
 */
-string toString(Time& t, bool b) {
+string toString(Time const& t, bool b) {
     if (b) {
         //format: "14:21:23"
         if(t.hours < 10){
@@ -66,6 +66,7 @@ bool isAM(Time const& t) {
 Time& operator++(Time& t) {
     // check for 60 seconds/mins/ 24hours
     ++t.seconds;
+
         if (t.seconds > 60) {
         t.seconds = t.seconds - 60;
         ++t.minutes;
@@ -83,18 +84,7 @@ Time& operator++(Time& t) {
 //postfix includes an int 0 to match this function
 Time operator++(Time& t, int) {
     Time temp{t.hours, t.minutes, t.seconds};
-    ++temp.seconds;
-        if (temp.seconds > 60) {
-        temp.seconds = temp.seconds - 60;
-        ++temp.minutes;
-        if (temp.minutes > 60) {
-            temp.minutes = temp.minutes - 60;
-            ++temp.hours;
-            if (temp.hours > 24) {
-                temp.hours = temp.hours - 24;
-            }
-        } 
-    }
+    ++t;
     return temp;
 }
 
@@ -117,18 +107,7 @@ Time& operator--(Time& t) {
 
 Time operator--(Time& t, int) {
     Time temp{t.hours, t.minutes, t.seconds};
-    --temp.seconds;
-        if (temp.seconds < 0) {
-        temp.seconds = temp.seconds + 60;
-        --temp.minutes;
-        if (temp.minutes < 0) {
-            temp.minutes = temp.minutes + 60;
-            --temp.hours;
-            if (temp.hours < 0) {
-                temp.hours = temp.hours + 24;
-            }
-        } 
-    }
+    --t;
     return temp;
 }
 
@@ -247,13 +226,15 @@ bool operator==(Time const& lhs, Time const& rhs) {
 }
 
 ostream& operator<<(ostream& os, Time const& t) {
+    toString(t, true);
     os << to_string(t.hours) + ":" + to_string(t.minutes) + ":" + to_string(t.seconds);
     return os;
 }
 
 istream& operator>>(istream& is, Time& t) {
     //no error checking here - assuming correct input as stated in assigment
-    is >> t.hours >> t.minutes >> t.seconds;
+    char colon;
+    is >> t.hours >> colon >> t.minutes >> colon >> t.seconds;
     //if the new time object is not valid - set the failbit flag
     if (!isValid(t)) {
         is.setstate(ios_base::failbit);

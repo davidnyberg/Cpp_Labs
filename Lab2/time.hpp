@@ -6,7 +6,7 @@ struct Time {
     int seconds{};
 };
 
-std::string toString(Time & t, bool b);
+std::string toString(Time const& t, bool b);
 bool isValid(Time const& t);
 bool isAM(Time const& t);
 
