@@ -4,6 +4,22 @@
 #include <limits>
 #include <sstream>
 
+//TODO: complementary work needed, 7-1: Initialize variables using
+//braces when possible
+//DONE
+
+//TODO: complementary work needed, you are supposed to take an integer
+//directly from the input stream on the first task.
+//DONE
+
+//TODO: complementary work needed, 8-8: Use manipulators such as
+//setfill and setw from the library iomanip when wanting to output
+//many characters such as "......".
+
+//TODO: complementary work needed, 5-1: choose names to clearly
+//indicate you codes intention.
+//DONE
+
 using namespace std;
 
 /*
@@ -16,93 +32,92 @@ fix is to ignore output between character input and line input
 
 
 int main() {
-    int i;
-    double d;
-    float f;
-    char c;
-    string s;
+    int integer{};
+    float floating_pt{};
+    char character{};
+    string string_var{};
 
     cout << "Enter one integer: ";
-    getline(cin, s);
-    stringstream(s) >> i;
-    cout << "You entered the number: " << i << endl << endl;
+    cin >> integer;
+    cout << "You entered the number: " << integer << endl << endl;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    //previous solution was to use getline, but could return strings and extra ints instead of just ints
+
     cout << "Enter four integers: ";
-    cin >> i;
-    cout << "You entered the numbers: " << i << " ";
-    cin >> i;
-    cout << i << " ";
-    cin >> i;
-    cout << i << " ";
-    cin >> i;
-    cout << i;
+    cin >> integer;
+    cout << "You entered the numbers: " << integer << " ";
+    cin >> integer;
+    cout << integer << " ";
+    cin >> integer;
+    cout << integer << " ";
+    cin >> integer;
+    cout << integer;
     cout << endl << endl;;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 
     cout << "Enter one integer and one real number: ";
-    cin >> i;
-    cin >> f;
+    cin >> integer;
+    cin >> floating_pt;
     cout << setprecision(4);
-    cout << "The real is: \t\t" << f << endl;
-    cout << "The integer is: \t" << i << endl << endl;
+    cout << "The real is: \t\t" << floating_pt << endl;
+    cout << "The integer is: \t" << integer << endl << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     cout << "Enter one real and one integer number: ";
-    cin >> f;
-    cin >> i;
+    cin >> floating_pt;
+    cin >> integer;
     cout << setprecision(8);
-    cout << "The real is:  ......" << f << endl;
-    cout << "The integer is:  ...." << i << endl << endl;
+    cout << "The real is:  ......" << floating_pt << endl;
+    cout << "The integer is:  ...." << integer << endl << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 
     cout << "Enter a character: ";
-    cin >> c;
-    cout << "You entered: " << c << endl << endl;
+    cin >> character;
+    cout << "You entered: " << character << endl << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 
     cout << "Enter a word: ";
-    cin >> s;
-    cout << "The word '" << s << "' has " << s.length() << " character(s)." << endl << endl;
+    cin >> string_var;
+    cout << "The word '" << string_var << "' has " << string_var.length() << " character(s)." << endl << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 
     cout << "Enter an integer and a word: ";
-    cin >> i >> s;
-    cout << "You entered '" << i << "' and '" << s << "'.\n" << endl;
+    cin >> integer >> string_var;
+    cout << "You entered '" << integer << "' and '" << string_var << "'.\n" << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     cout << "Enter a character and a word: ";
-    cin >> c >> s;
-    cout << "You entered the string \"" << s << "\" and the character '" << c << "'." << endl << endl;
+    cin >> character >> string_var;
+    cout << "You entered the string \"" << string_var << "\" and the character '" << character << "'." << endl << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 
     cout << "Enter a word and a real number: ";
-    cin >> s >> f;
+    cin >> string_var >> floating_pt;
     cout << setprecision(5);
-    cout << "You entered \"" << s << "\" and \"" << f << "\".\n" << endl;
+    cout << "You entered \"" << string_var << "\" and \"" << floating_pt << "\".\n" << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     cout << "Enter a text-line: ";
-    getline(cin, s);
-    cout << "You entered: \"" << s << "\""<< endl << endl;
+    getline(cin, string_var);
+    cout << "You entered: \"" << string_var << "\""<< endl << endl;
 
 
     cout << "Enter a second line of text: ";
-    getline(cin, s);
-    cout << "You entered: '" << s << "\"\n"<< endl;
+    getline(cin, string_var);
+    cout << "You entered: '" << string_var << "\"\n"<< endl;
 
     cout << "Enter three words: ";
-    cin >> s;
-    cout << "You entered: '" << s << " ";
-    cin >> s;
-    cout << s << " ";
-    cin >> s;
-    cout << s << "'" << endl;
+    cin >> string_var;
+    cout << "You entered: '" << string_var << " ";
+    cin >> string_var;
+    cout << string_var << " ";
+    cin >> string_var;
+    cout << string_var << "'" << endl;
 
     return 0;
 }
