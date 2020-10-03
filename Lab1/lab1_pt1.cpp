@@ -2,6 +2,7 @@
 #include <string>
 #include <iomanip>
 #include <limits>
+#include <iomanip>
 #include <sstream>
 
 //TODO: complementary work needed, 7-1: Initialize variables using
@@ -15,6 +16,7 @@
 //TODO: complementary work needed, 8-8: Use manipulators such as
 //setfill and setw from the library iomanip when wanting to output
 //many characters such as "......".
+//DONE
 
 //TODO: complementary work needed, 5-1: choose names to clearly
 //indicate you codes intention.
@@ -59,7 +61,8 @@ int main() {
     cout << "Enter one integer and one real number: ";
     cin >> integer;
     cin >> floating_pt;
-    cout << setprecision(4);
+    cout << fixed;
+    cout << setprecision(3);
     cout << "The real is: \t\t" << floating_pt << endl;
     cout << "The integer is: \t" << integer << endl << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -67,9 +70,8 @@ int main() {
     cout << "Enter one real and one integer number: ";
     cin >> floating_pt;
     cin >> integer;
-    cout << setprecision(8);
-    cout << "The real is:  ......" << floating_pt << endl;
-    cout << "The integer is:  ...." << integer << endl << endl;
+    cout << "The real is: " << setw(12) << setfill('.') << floating_pt << endl;
+    cout << "The integer is: " << <<setw(8) << setfill('.') << integer << endl << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 
