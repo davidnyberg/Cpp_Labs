@@ -1,5 +1,9 @@
 #include "time.hpp"
 #include <iostream>
+//TODO: Complementary work needed. 2-7. Include every library required
+//by the code written in each file. If e.g. string is used in the .h
+//file then include it here and if it is also used in the .cc file,
+//include it there as well.
 
 using namespace std;
 
@@ -11,6 +15,9 @@ Output: Time formatted as a string
 string toString(Time const& t, bool b) {
     if (b) {
         //format: "14:21:23"
+
+      //TODO: Complementary work needed. Simplify by only having the
+      //necessary parts in the if-statements.
         if(t.hours < 10){
             return "0" + to_string(t.hours) + ":" + to_string(t.minutes) +
                    ":" + to_string(t.seconds);
@@ -44,15 +51,10 @@ string toString(Time const& t, bool b) {
 }
 
 bool isValid(Time const& t) {
-
-    if (t.hours <= 23 && t.hours >= 0 &&
+//Comment. You can return the value from the expression.
+    return (t.hours <= 23 && t.hours >= 0 &&
         t.minutes <= 59 && t.minutes >= 0 &&
-        t.seconds <= 59 && t.seconds >= 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        t.seconds <= 59 && t.seconds >= 0); 
 }
 
 bool isAM(Time const& t) {
@@ -129,20 +131,17 @@ Time operator+(Time const& t1, Time const& t2) {
     
     return new_t;
 }
-
+//TODO: Complementary work needed. This doesn't work for additions of
+//say 120 seconds. Use already implemented functions instead.
+//DONE, loop i times with increment operator
 Time operator+(Time const& t, int i) {
-    Time new_t {t.hours, t.minutes, t.seconds + i};
-        if (new_t.seconds > 60) {
-        new_t.seconds = new_t.seconds - 60;
-        ++new_t.minutes;
-        if (new_t.minutes > 60) {
-            new_t.minutes = new_t.seconds - 60;
-            ++new_t.hours;
-            if (new_t.hours > 24) {
-                new_t.hours = new_t.hours - 24;
-            }
-        } 
+    int j{0};
+    Time new_t {t.hours, t.minutes, t.seconds};
+    while(j < i){
+        ++new_t;
+        ++j;
     }
+
     return new_t;
 }
 
@@ -193,19 +192,21 @@ bool operator>(Time const& lhs, Time const& rhs) {
 
 bool operator<(Time const& lhs, Time const& rhs) {
     //simply check greater than, then negate the result
+    if (lhs == rhs){
+        return false;
+    }
     return !(lhs > rhs);
 }
 
 bool operator>=(Time const& lhs, Time const& rhs)  {
-    if(lhs.hours == rhs.hours) {
-        if(lhs.minutes == rhs.minutes) {
-            return lhs.seconds >= rhs.seconds;
-        } else {
-            return lhs.minutes >= rhs.minutes;
-        }
-    } else {
-        return lhs.hours >= rhs.hours;
-    }
+  //TODO: Complementary work needed. Use existing functions. You only
+  //have to implement two functions maximum, the rest can be written
+  //using these two.
+  //DONE now using > and < in the >= and <= operations
+    if (lhs == rhs || lhs > rhs){
+        return true;
+    } else
+    return false;
 }
 
 bool operator<=(Time const& lhs, Time const& rhs) {
@@ -226,18 +227,30 @@ bool operator==(Time const& lhs, Time const& rhs) {
 }
 
 ostream& operator<<(ostream& os, Time const& t) {
-    toString(t, true);
-    os << to_string(t.hours) + ":" + to_string(t.minutes) + ":" + to_string(t.seconds);
+  //TODO: Complementary work needed. Use the time to_string instead.
+    //DONE
+    os << toString(t, true);
     return os;
 }
 
 istream& operator>>(istream& is, Time& t) {
     //no error checking here - assuming correct input as stated in assigment
-    char colon;
-    is >> t.hours >> colon >> t.minutes >> colon >> t.seconds;
+    char colon{};
+      //TODO: Complementary work needed. This will assign the time 
+   //variable an incorrect value and then the fail flag will be 
+   //set. If the time value isn't correct, the fail flag should be set 
+   //and the value should not be assigned to the variable. 
+   //DONE
+    Time tmp{};
+
+    is >> tmp.hours >> colon >> tmp.minutes >> colon >> tmp.seconds;
     //if the new time object is not valid - set the failbit flag
-    if (!isValid(t)) {
+    if (!isValid(tmp)) {
         is.setstate(ios_base::failbit);
+    } else {
+        //if valid set the tmp time object equal to the reference to t from parameter
+        t = tmp;
     }
     return is;
 }
+
