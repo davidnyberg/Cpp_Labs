@@ -18,6 +18,9 @@ public:
     Sorted_List& operator=(Sorted_List const& other); //copy assignment operator
     Sorted_List& operator=(Sorted_List&& other); //move assignment operator
 
+
+
+    void print_List():
     void remove();
     void insert(int value);
 
