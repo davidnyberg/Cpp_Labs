@@ -44,7 +44,6 @@ void Sorted_List::remove() {
     delete tmp;
 }
 void Sorted_List::insert(int value) {
-    
     Link* tmp{new Link{value}};
     tmp->next = first_link;
     first_link = tmp;
