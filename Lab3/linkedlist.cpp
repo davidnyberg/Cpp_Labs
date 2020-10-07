@@ -7,7 +7,7 @@ https://www.ida.liu.se/~TDDE18/current/slides/slides/TDDE18.726G77.le4.pdf
 
 
 //constructor
-Sorted_List::Sorted_List() : first_link{nullptr} {}
+    Sorted_List::Sorted_List() : first_link{nullptr} {}
 //destructor
 Sorted_List::~Sorted_List() {
     //delete every node
@@ -34,6 +34,15 @@ Sorted_List& Sorted_List::operator=(Sorted_List&& other) {
     //remove old content of list
     //move content from other to this object
 }
+
+//print list
+void Sorted_List::print_list(Link* node){
+        if(node->next){
+            cout << "Node val: " << node->val << endl;
+            name(node->next)
+        }
+        //don't need return??
+    }
 
 
 void Sorted_List::remove() {
