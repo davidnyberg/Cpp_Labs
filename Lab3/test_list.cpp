@@ -14,6 +14,8 @@
 // (Must be in only one place!)
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
+#include "linkedlist.hpp"
+
 
 #include <random>
 
@@ -27,5 +29,14 @@ TEST_CASE( "Create an empty list" ) {
   REQUIRE( l.is_empty() == true );
   REQUIRE( l.size() == 0 );
 }
+TEST_CASE( "CHECK NEXT VALUE" ){
+    Sorted_List l{};
+    int test{5}
+    l.insert(test)
+
+    CHECK_(value == value)
+
+}
+
 
 // It is your job to create new test cases and fully test your Sorted_List class
