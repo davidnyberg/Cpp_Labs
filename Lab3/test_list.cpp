@@ -22,21 +22,21 @@
 //=======================================================================
 // Test cases
 //=======================================================================
-
+// It is your job to create new test cases and fully test your Sorted_List class
 TEST_CASE( "Create an empty list" ) {
   Sorted_List l{};
 
   REQUIRE( l.is_empty() == true );
   REQUIRE( l.size() == 0 );
 }
-TEST_CASE( "CHECK NEXT VALUE" ){
-    Sorted_List l{};
-    int test{5}
-    l.insert(test)
 
-    CHECK_(value == value)
+TEST_CASE( "Test insert function" ){
+    Sorted_List l{};
+    l.insert(5);
+    std::cout << l << std::endl;
+    //REQUIRE( l.is_empty() == false);
+    //REQUIRE( l.size() == 1 );
+
 
 }
 
-
-// It is your job to create new test cases and fully test your Sorted_List class
