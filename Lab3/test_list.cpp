@@ -16,7 +16,6 @@
 #include "catch.hpp"
 #include "linkedlist.hpp"
 
-
 #include <random>
 
 //=======================================================================
@@ -25,18 +24,40 @@
 // It is your job to create new test cases and fully test your Sorted_List class
 TEST_CASE( "Create an empty list" ) {
   Sorted_List l{};
+  CHECK(l.is_empty());
+  CHECK(l.size() == 0);
+}
 
-  REQUIRE( l.is_empty() == true );
-  REQUIRE( l.size() == 0 );
+TEST_CASE( "Create a non empty list") {
+  Sorted_List l{5, 3 ,2};
+  CHECK_FALSE( l.is_empty());
+  CHECK(l.size() == 3);
 }
 
 TEST_CASE( "Test insert function" ){
     Sorted_List l{};
     l.insert(5);
-    std::cout << l << std::endl;
-    //REQUIRE( l.is_empty() == false);
-    //REQUIRE( l.size() == 1 );
-
-
+    CHECK_FALSE( l.is_empty());
+    CHECK( l.size() == 1 );
 }
 
+TEST_CASE( "Test remove function" ){
+  Sorted_List l{};
+  l.insert(5);
+  CHECK_FALSE( l.is_empty());
+  l.remove();
+  CHECK(l.is_empty());
+
+  //test edge case when l is empty
+  CHECK_THROWS(l.remove());
+}
+
+
+//doesnt work yet
+TEST_CASE("Testing copy assignment") {
+  Sorted_List l{5};
+  Sorted_List l2{};
+
+  l2 = l;
+  //CHECK_FALSE(l2.is_empty());
+}
