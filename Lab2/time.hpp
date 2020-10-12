@@ -1,3 +1,7 @@
+#ifndef TIME_H
+#define TIME_H
+ //TODO: Complementary work needed. Missing header guards
+ //DONE
 #include <string>
 
 struct Time {
@@ -29,3 +33,5 @@ bool operator==(Time const& lhs, Time const& rhs);
 
 std::ostream& operator<<(std::ostream& os, Time const& t);
 std::istream& operator>>(std::istream& is, Time& t);
+
+#endif

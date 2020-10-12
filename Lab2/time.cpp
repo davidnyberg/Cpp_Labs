@@ -1,9 +1,11 @@
 #include "time.hpp"
 #include <iostream>
+#include <string>
 //TODO: Complementary work needed. 2-7. Include every library required
 //by the code written in each file. If e.g. string is used in the .h
 //file then include it here and if it is also used in the .cc file,
 //include it there as well.
+//DONE
 
 using namespace std;
 
@@ -13,41 +15,44 @@ true = 24 hour time, false = am/pm
 Output: Time formatted as a string
 */
 string toString(Time const& t, bool b) {
+    string result{""};
     if (b) {
         //format: "14:21:23"
 
       //TODO: Complementary work needed. Simplify by only having the
       //necessary parts in the if-statements.
-        if(t.hours < 10){
-            return "0" + to_string(t.hours) + ":" + to_string(t.minutes) +
-                   ":" + to_string(t.seconds);
-        }else{
-            return to_string(t.hours) + ":" + to_string(t.minutes) +
-                   ":" + to_string(t.seconds);
-        }
+      //DONE
+      //simplified by instead of checking every single case in the if 
+      //statement, save the result and have one check at the end of
+      //the function to fix all cases.
+
+            result = {to_string(t.hours) + ":" + to_string(t.minutes) +
+                   ":" + to_string(t.seconds)};
     } else {
         //format: "02:30:21 am"
         // add 0 before for nice format
-
         if (t.hours > 12) {
-            if(t.hours - 12 < 10){
-                return "0" + to_string(t.hours - 12) + ":" + to_string(t.minutes) +
-                       ":" + to_string(t.seconds) + " pm";
-            }
-            return to_string(t.hours - 12) + ":" + to_string(t.minutes) + 
-                ":" + to_string(t.seconds) + " pm";
+            result = {to_string(t.hours - 12) + ":" + to_string(t.minutes) + 
+                ":" + to_string(t.seconds) + " pm"};
         } else if(t.hours == 12) {
-            return to_string(t.hours) + ":" + to_string(t.minutes) + 
-                ":" + to_string(t.seconds) + " pm";
+            result = {to_string(t.hours) + ":" + to_string(t.minutes) + 
+                ":" + to_string(t.seconds) + " pm"};
         } else {
-            if(t.hours < 10){
-                return "0" + to_string(t.hours - 12) + ":" + to_string(t.minutes) +
-                       ":" + to_string(t.seconds) + " pm";
-            }
-            return to_string(t.hours) + ":" + to_string(t.minutes) +
-                ":" + to_string(t.seconds) + " am";
+            result = {to_string(t.hours) + ":" + to_string(t.minutes) +
+                ":" + to_string(t.seconds) + " am"};
         }
     }
+
+    //if the string does not have a leading zero,
+    //simply append a zero at the start
+    //sources:
+    //https://stackoverflow.com/questions/6143824/add-leading-zeros-to-string-without-sprintf
+    //https://stackoverflow.com/questions/18794793/c-comparing-the-index-of-a-string-to-another-string
+
+    if (string(1, result[2]) != ":" ){
+        result = {string(1, '0').append(result)};
+    }
+    return result;
 }
 
 bool isValid(Time const& t) {
@@ -163,17 +168,11 @@ Time operator-(Time const& t1, Time const& t2) {
 }
 
 Time operator-(Time const& t, int i) {
-    Time new_t {t.hours, t.minutes, t.seconds - i};
-        if (new_t.seconds < 0) {
-        new_t.seconds = new_t.seconds + 60;
-        --new_t.minutes;
-        if (new_t.minutes < 0) {
-            new_t.minutes = new_t.minutes + 60;
-            --new_t.hours;
-            if (new_t.hours < 0) {
-                new_t.hours = new_t.hours + 24;
-            }
-        } 
+    int j{0};
+    Time new_t {t.hours, t.minutes, t.seconds};
+    while(j < i){
+        --new_t;
+        ++j;
     }
     return new_t;
 }
