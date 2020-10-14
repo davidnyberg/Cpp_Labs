@@ -22,42 +22,54 @@
 // Test cases
 //=======================================================================
 // It is your job to create new test cases and fully test your Sorted_List class
+
 TEST_CASE( "Create an empty list" ) {
-  Sorted_List l{};
-  CHECK(l.is_empty());
-  CHECK(l.size() == 0);
+  Sorted_List list{};
+  CHECK(list.is_empty());
+  CHECK(list.size() == 0);
 }
 
 TEST_CASE( "Create a non empty list") {
-  Sorted_List l{5, 3 ,2};
-  CHECK_FALSE( l.is_empty());
-  CHECK(l.size() == 3);
+  Sorted_List list{5, 3 ,2};
+  CHECK_FALSE( list.is_empty());
+  CHECK(list.size() == 3);
 }
 
 TEST_CASE( "Test insert function" ){
-    Sorted_List l{};
-    l.insert(5);
-    CHECK_FALSE( l.is_empty());
-    CHECK( l.size() == 1 );
+    Sorted_List list{};
+    list.insert(5);
+    CHECK_FALSE( list.is_empty());
+    CHECK( list.size() == 1 );
 }
 
 TEST_CASE( "Test remove function" ){
-  Sorted_List l{};
-  l.insert(5);
-  CHECK_FALSE( l.is_empty());
-  l.remove();
-  CHECK(l.is_empty());
+  Sorted_List list{};
+  list.insert(5);
+  CHECK_FALSE( list.is_empty());
+  list.remove();
+  CHECK(list.is_empty());
 
-  //test edge case when l is empty
-  CHECK_THROWS(l.remove());
+  //test edge case when list is empty
+  CHECK_THROWS(list.remove());
 }
-
 
 //doesnt work yet
 TEST_CASE("Testing copy assignment") {
-  Sorted_List l{5};
-  Sorted_List l2{};
+  Sorted_List list{5};
+  Sorted_List list2{};
 
-  l2 = l;
-  //CHECK_FALSE(l2.is_empty());
+  list2 = list;
+  CHECK_FALSE(list2.is_empty());
+}
+
+TEST_CASE("Test print function") {
+  //Sorted_List empty_list{};
+  //empty_list.print_list();
+  Sorted_List list{3};
+  list.print_list();
+  list.insert(5);
+  list.print_list();
+  list.insert(7);
+  list.print_list();
+  //std::cout << list.size() << std::endl;
 }

@@ -16,7 +16,7 @@ public:
 
     bool is_empty();
     int size();
-    //void print_list(Link* node);
+    void print_list();
     void remove();
     void insert(int value);
 
@@ -25,9 +25,10 @@ private:
     class Link {
         public:
             int value{};
-            //pointer to next node;
+            //pointer to next link;
             Link* next{};
     };
+    //first link is simply a pointer to the first link with a value
     Link* first_link{};
     Link* copy(Link const* n) const;
 };
