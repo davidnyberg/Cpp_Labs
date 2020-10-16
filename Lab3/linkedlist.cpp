@@ -45,6 +45,7 @@ Sorted_List& Sorted_List::operator=(Sorted_List&& other) {
     //move content from other to this object
 }
 
+//return type of link pointer, 
 Sorted_List::Link* Sorted_List::copy(Sorted_List::Link const* n) const {
     if (n == nullptr){
         return nullptr;
@@ -95,14 +96,26 @@ void Sorted_List::remove() {
 
 //should be recursive, and should sort the inserted values
 void Sorted_List::insert(int value) {
+    //points to first link
+    Link* tmp1{first_link};
 
     //create a new link object with the value set as value
     //then create a tmp Link pointer that points to this new link object
     Link* tmp{new Link{}};
     tmp->value = {value};
 
-    //set the new link objects pointer to next link to nullptr
-    //tmp->next = nullptr;
+    //check if first_link or the new link has a greater value
+    
+    //works for sorting the first place, now need to sort the
+    //rest of the list
+    if(tmp1 != nullptr){
+        bool test = {tmp1->value < tmp->value};
+        //cout << test << endl;
+        if (test) {
+            swap(tmp1->value, tmp->value);
+        }
+    }
+    
 
     //if the first_link pointer already points to something, go to the next link
     tmp->next = first_link;
