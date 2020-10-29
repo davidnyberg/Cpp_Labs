@@ -1,6 +1,7 @@
 #include "linkedlist.hpp"
 #include <initializer_list>
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -60,27 +61,43 @@ bool Sorted_List::is_empty() {
 
 int Sorted_List::size() {
     //return the size of the linked list
-    //the number of links
     return num_of_links;
 }
 
-//print list, works now
-void Sorted_List::print_list() {
+//Note: returning string is mostly for testing, can be void
+std::string Sorted_List::print_list() {
+    std::string result = "";
     if(is_empty()) {
-        cout << "List is empty" << endl;
+        //cout << "List is empty" << endl;
+        return result;
     }
     //temp linkptr variable to not modify first_link
     Link* tmp{first_link};
     while(tmp != nullptr){
         cout << tmp->value;
+        result += to_string(tmp->value);
         tmp = tmp->next;
     }
     cout << endl;
-}
+    return result;
 
-//remove any element?? rm specific element
-//should be iterative
+}
+//remove with no parameters
 void Sorted_List::remove() {
+    if(is_empty()) {
+        throw std::logic_error{"Can't remove from an empty linked list"};
+    }
+    //create tmp Link pointer copying all from first_link
+    Link* tmp{first_link};
+    //set the first link to the next one because we remove the first
+    first_link = tmp->next;
+    delete tmp;
+
+    //remove 1 from the num_of_links
+    --num_of_links;
+}
+//rm specific element
+void Sorted_List::remove(int value) {
     if(is_empty()) {
         throw std::logic_error{"Can't remove from an empty linked list"};
     }

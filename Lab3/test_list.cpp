@@ -15,7 +15,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include "linkedlist.hpp"
-
+#include <string>
 #include <random>
 
 //=======================================================================
@@ -51,9 +51,12 @@ TEST_CASE( "Test remove function" ){
 
   //test edge case when list is empty
   CHECK_THROWS(list.remove());
+
+  //need to remove a specific element
+  Sorted_List list1{1,2,3,4,5};
+  list1.remove(5);
 }
 
-//doesnt work yet
 TEST_CASE("Testing copy assignment") {
   Sorted_List list{5};
   Sorted_List list2{};
@@ -63,13 +66,37 @@ TEST_CASE("Testing copy assignment") {
 }
 
 TEST_CASE("Test print function") {
-  //Sorted_List empty_list{};
-  //empty_list.print_list();
+  std::string correct = "";
+  std::string v = "";
+
+  Sorted_List empty_list{};
+  v = empty_list.print_list();
+  CHECK(v == correct);
+
   Sorted_List list{3};
-  list.print_list();
-  list.insert(5);
-  list.print_list();
+  correct += "3";
+  v = list.print_list();
+  CHECK(v == correct);
+
   list.insert(7);
-  list.print_list();
-  //std::cout << list.size() << std::endl;
+  correct += "7";
+  v = list.print_list();
+  CHECK(v == correct);
+
+  list.insert(5);
+  correct = correct = "357";
+  v = list.print_list();
+  CHECK(v == correct);
+
+  list.insert(1);
+  correct = correct = "1357";
+  v = list.print_list();
+  CHECK(v == correct);
+
+//TODO: FIX this case, cant sort this
+  list.insert(4);
+  correct = correct = "13457";
+  v = list.print_list();
+  CHECK(v == correct);
+
 }

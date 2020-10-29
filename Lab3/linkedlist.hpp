@@ -2,6 +2,7 @@
 #define LIST_H
 
 #include <initializer_list>
+#include <string>
 
 class Sorted_List {
 public:
@@ -16,8 +17,9 @@ public:
 
     bool is_empty();
     int size();
-    void print_list();
+    std::string print_list();
     void remove();
+    void remove(int value);
     void insert(int value);
 
 private:
