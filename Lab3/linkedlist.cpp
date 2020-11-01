@@ -16,7 +16,7 @@ Sorted_List::Sorted_List(initializer_list<int> list) : first_link{nullptr} {
 //destructor
 Sorted_List::~Sorted_List() {
     while(!is_empty()) {
-        remove();
+        remove(first_link->value);
     }
 }
 
@@ -41,7 +41,8 @@ Sorted_List& Sorted_List::operator=(Sorted_List const& other) {
 Sorted_List& Sorted_List::operator=(Sorted_List&& other) {
     //remove old content of list
     Sorted_List tmp{other};
-    //move(first_link, tmp.first_link);
+    swap(first_link, tmp.first_link);
+
     return *this;
     //move content from other to this object
 }
@@ -82,6 +83,7 @@ std::string Sorted_List::print_list() {
     return result;
 
 }
+/*
 //remove with no parameters
 void Sorted_List::remove() {
     if(is_empty()) {
@@ -96,52 +98,86 @@ void Sorted_List::remove() {
     //remove 1 from the num_of_links
     --num_of_links;
 }
+*/
 //rm specific element
 void Sorted_List::remove(int value) {
     if(is_empty()) {
         throw std::logic_error{"Can't remove from an empty linked list"};
     }
-    //create tmp Link pointer copying all from first_link
-    Link* tmp{first_link};
-    //set the first link to the next one because we remove the first
-    first_link = tmp->next;
-    delete tmp;
+    // todo: check if in list
+
+    Link* first{first_link};
+    Link* next_link{first->next};
+
+    if (first_link->value == value) {
+        first->next = nullptr;
+        delete first;
+        //move the first link to next link
+        first_link = next_link;
+        num_of_links--;
+    }
+    //if not the first node, check rest of the list
+    for (int i{1}; i <= num_of_links; i++) {
+        if (next_link->value == value) {
+            //move the first link to nexts next, skip over one link - drawing
+            first->next = next_link->next;
+            next_link->next = nullptr;
+            delete next_link;
+            num_of_links--;
+        }
+        //moving all links one step forward
+        first = first->next;
+        next_link = next_link->next;
+    }
 
     //remove 1 from the num_of_links
-    --num_of_links;
+    num_of_links--;
+}
+
+void Sorted_List::insert_helper(Link* l, int value) {
+    //l should be the current node
+    Link* l_next{l->next};
+
+    Link* new_link{new Link{}};
+    new_link->value = value;
+    new_link->next = nullptr;
+    //end of the list
+    if (l->next == nullptr) {
+        l->next = new_link;
+        //new end of list
+        new_link->next = nullptr;
+        num_of_links++;
+    }
+    else if (value <= l_next->value) {   
+        //previous node points to new link
+        l->next = new_link;
+        //the new inserted link points to l's old link
+        new_link->next = l_next;
+        num_of_links++;
+    } else {
+        insert_helper(l_next, value);
+    }
 }
 
 //should be recursive, and should sort the inserted values
 void Sorted_List::insert(int value) {
-    //points to first link
-    Link* tmp1{first_link};
 
-    //create a new link object with the value set as value
-    //then create a tmp Link pointer that points to this new link object
-    Link* tmp{new Link{}};
-    tmp->value = {value};
+    Link* new_link{new Link{}};
+    new_link->value = value;
+    new_link->next = nullptr;
 
-    //check if first_link or the new link has a greater value
-    
-    //works for sorting the first place, now need to sort the
-    //rest of the list
-    if(tmp1 != nullptr){
-        bool test = {tmp1->value < tmp->value};
-        //cout << test << endl;
-        if (test) {
-            swap(tmp1->value, tmp->value);
-        }
+    if(is_empty() == true) {
+        first_link = new_link;
+        num_of_links++;
     }
-    
 
-    //if the first_link pointer already points to something, go to the next link
-    tmp->next = first_link;
-    
-    //sets the pointer of first_link to be the same as tmp, aka they are both pointing to the same object now
-    first_link = tmp;
-    
-    //we have first_link and tmp pointing to this new link with value
+    else if (new_link->value < first_link->value) {
+        new_link->next = first_link;
+        first_link = new_link;
 
-    //add 1 to the num_of_links to keep track of size
-    ++num_of_links;
+        num_of_links++;
+    }
+    else {
+        insert_helper(first_link, value);
+    }
 }
