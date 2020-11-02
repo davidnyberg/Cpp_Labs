@@ -98,4 +98,10 @@ TEST_CASE("Test print function") {
   v = list.print_list();
   CHECK(v == correct);
   */
+  list.remove(1);
+  list.remove(3);
+  //list.remove(4);
+  list.remove(5);
+  list.remove(7);
+  CHECK("" == list.print_list());
 }

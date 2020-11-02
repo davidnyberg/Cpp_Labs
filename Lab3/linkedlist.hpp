@@ -13,8 +13,7 @@ class Sorted_List {
             //pointer to next link;
             Link* next{};
     };
-    //first link is simply a pointer to the first link with a value
-    Link* first_link{};
+    Link* first_link{nullptr};
     Link* copy(Link const* n) const;
 public:
     Sorted_List();
@@ -32,7 +31,7 @@ public:
     //void remove();
     void remove(int value);
     void insert(int value);
-    void insert_helper(Link* l, int value);
+    void insert(Link* l, int value);
 
 
 };

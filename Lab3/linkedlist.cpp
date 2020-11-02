@@ -13,6 +13,7 @@ Sorted_List::Sorted_List(initializer_list<int> list) : first_link{nullptr} {
     }
 }
 
+
 //destructor
 Sorted_List::~Sorted_List() {
     while(!is_empty()) {
@@ -117,7 +118,8 @@ void Sorted_List::remove(int value) {
         num_of_links--;
     }
     //if not the first node, check rest of the list
-    for (int i{1}; i <= num_of_links; i++) {
+    //for (int i{1}; i < num_of_links; i++) {
+    while(next_link != nullptr) {
         if (next_link->value == value) {
             //move the first link to nexts next, skip over one link - drawing
             first->next = next_link->next;
@@ -126,58 +128,64 @@ void Sorted_List::remove(int value) {
             num_of_links--;
         }
         //moving all links one step forward
+        if (next_link->next == nullptr || first->next == nullptr) break;
         first = first->next;
         next_link = next_link->next;
     }
-
-    //remove 1 from the num_of_links
-    num_of_links--;
 }
-
-void Sorted_List::insert_helper(Link* l, int value) {
+//Sources:
+//https://stackoverflow.com/questions/16632174/linked-list-insert-function-recursively-c
+//http://www.cs.bu.edu/~snyder/cs112/CourseMaterials/LinkedListNotes.html
+void Sorted_List::insert(Link * l, int value) {
     //l should be the current node
     Link* l_next{l->next};
-
-    Link* new_link{new Link{}};
-    new_link->value = value;
-    new_link->next = nullptr;
     //end of the list
     if (l->next == nullptr) {
+        Link* new_link{new Link{value, nullptr}};
+        //new_link->value = value;
+        //new_link->next = nullptr;
+
         l->next = new_link;
         //new end of list
         new_link->next = nullptr;
         num_of_links++;
     }
     else if (value <= l_next->value) {   
+        Link* new_link{new Link{value, nullptr}};
+        //new_link->value = value;
+        //new_link->next = nullptr;
+    
         //previous node points to new link
         l->next = new_link;
         //the new inserted link points to l's old link
         new_link->next = l_next;
         num_of_links++;
     } else {
-        insert_helper(l_next, value);
+        insert(l_next, value);
     }
 }
 
-//should be recursive, and should sort the inserted values
+//recursive helper function, sorts
 void Sorted_List::insert(int value) {
 
-    Link* new_link{new Link{}};
-    new_link->value = value;
-    new_link->next = nullptr;
-
     if(is_empty() == true) {
+        Link* new_link{new Link{value, nullptr}};
+        //new_link->value = value;
+        //new_link->next = nullptr;
         first_link = new_link;
         num_of_links++;
     }
 
-    else if (new_link->value < first_link->value) {
+    else if (value < first_link->value) {
+        Link* new_link{new Link{value, nullptr}};
+       // new_link->value = value;
+       // new_link->next = nullptr;
+
         new_link->next = first_link;
         first_link = new_link;
-
         num_of_links++;
     }
     else {
-        insert_helper(first_link, value);
+        insert(first_link, value);
     }
 }
