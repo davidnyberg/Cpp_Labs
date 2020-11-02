@@ -25,24 +25,30 @@ Sorted_List::~Sorted_List() {
 Sorted_List::Sorted_List(Sorted_List const& other) : first_link{copy(other.first_link)} {}
 //deep copy using copy function to avoid memory leaks
 
+
+//copy assignment operator
+Sorted_List& Sorted_List::operator=(Sorted_List const& other) {
+    first_link = copy(other.first_link);
+    num_of_links = other.num_of_links;
+    cout << "I copy" << endl;
+
+    return *this; //derefence this pointer to return the current object
+}
+
 // move constructor
 Sorted_List::Sorted_List(Sorted_List&& other) : first_link{other.first_link} {
     //perform move by changing the pointers
     other.first_link = nullptr;
 }
 
-//copy assignment operator
-Sorted_List& Sorted_List::operator=(Sorted_List const& other) {
-    Sorted_List tmp{other};
-    swap(first_link, tmp.first_link);
-    return *this; //derefence this pointer to return the current object
-}
-
 //move assignment operator
 Sorted_List& Sorted_List::operator=(Sorted_List&& other) {
     //remove old content of list
-    Sorted_List tmp{other};
-    swap(first_link, tmp.first_link);
+    //not removing at this point
+    //Sorted_List tmp{other};
+    cout << "I WAS CALLED HOMIE" << endl;
+    swap(other.first_link, first_link);
+
 
     return *this;
     //move content from other to this object
@@ -128,10 +134,14 @@ void Sorted_List::remove(int value) {
             num_of_links--;
         }
         //moving all links one step forward
-        if (next_link->next == nullptr || first->next == nullptr) break;
+        if (next_link->next == nullptr || first->next == nullptr){
+            cout << "Not in list" << endl;
+            break;
+        }
         first = first->next;
         next_link = next_link->next;
     }
+
 }
 //Sources:
 //https://stackoverflow.com/questions/16632174/linked-list-insert-function-recursively-c
@@ -147,7 +157,8 @@ void Sorted_List::insert(Link * l, int value) {
 
         l->next = new_link;
         //new end of list
-        new_link->next = nullptr;
+        // we do this in the constructor - new_link->next = nullptr;
+
         num_of_links++;
     }
     else if (value <= l_next->value) {   

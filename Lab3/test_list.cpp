@@ -105,3 +105,28 @@ TEST_CASE("Test print function") {
   list.remove(7);
   CHECK("" == list.print_list());
 }
+
+TEST_CASE("MOVE OPERATOR"){
+    Sorted_List list{2,3};
+    Sorted_List list2{};
+
+    list2 = std::move(list);
+    CHECK(list.is_empty());
+    CHECK_FALSE(list2.is_empty());
+}
+
+TEST_CASE("COPY OPERATOR"){
+    Sorted_List list{2,3};
+    Sorted_List list2{1};
+    CHECK_FALSE(list2.is_empty());
+    std::cout << "hello" << std::endl;
+    list.print_list();
+    list2.print_list();
+    list2 = list;
+    list.print_list();
+    list2.print_list();
+    CHECK_FALSE(list.is_empty());
+    CHECK_FALSE(list2.is_empty());
+    CHECK(list.size() == list2.size());
+
+}
