@@ -13,45 +13,47 @@ Sorted_List::Sorted_List(initializer_list<int> list) : first_link{nullptr} {
     }
 }
 
-
-//destructor
+//destructor, deep deallocation
 Sorted_List::~Sorted_List() {
     while(!is_empty()) {
         remove(first_link->value);
     }
 }
 
-//copy constructor
-Sorted_List::Sorted_List(Sorted_List const& other) : first_link{copy(other.first_link)} {}
-//deep copy using copy function to avoid memory leaks
+//copy constructor, //deep copy using copy function to avoid memory leaks
+Sorted_List::Sorted_List(Sorted_List const& other) : first_link{copy(other.first_link)}, num_of_links{other.num_of_links} {
+    std::cout << "Called copy constructor" << std::endl;
+    }
 
 
 //copy assignment operator
 Sorted_List& Sorted_List::operator=(Sorted_List const& other) {
+    std::cout << "Called copy assignment" << std::endl;
+
     first_link = copy(other.first_link);
     num_of_links = other.num_of_links;
-    cout << "I copy" << endl;
 
     return *this; //derefence this pointer to return the current object
 }
 
 // move constructor
-Sorted_List::Sorted_List(Sorted_List&& other) : first_link{other.first_link} {
+Sorted_List::Sorted_List(Sorted_List&& other) : first_link{other.first_link}, num_of_links{other.num_of_links} {
+    std::cout << "Called move constructor" << std::endl;
     //perform move by changing the pointers
+    
     other.first_link = nullptr;
 }
 
 //move assignment operator
 Sorted_List& Sorted_List::operator=(Sorted_List&& other) {
-    //remove old content of list
-    //not removing at this point
-    //Sorted_List tmp{other};
-    cout << "I WAS CALLED HOMIE" << endl;
-    swap(other.first_link, first_link);
 
+    std::cout << "Called move assignment" << std::endl;
+    //move content from other to this object
+
+    swap(other.first_link, first_link);
+    swap(other.num_of_links, num_of_links);
 
     return *this;
-    //move content from other to this object
 }
 
 //return type of link pointer, 
@@ -67,8 +69,8 @@ bool Sorted_List::is_empty() {
     return first_link == nullptr;
 }
 
+//return the size of the linked list
 int Sorted_List::size() {
-    //return the size of the linked list
     return num_of_links;
 }
 
@@ -76,42 +78,23 @@ int Sorted_List::size() {
 std::string Sorted_List::print_list() {
     std::string result = "";
     if(is_empty()) {
-        //cout << "List is empty" << endl;
         return result;
     }
     //temp linkptr variable to not modify first_link
     Link* tmp{first_link};
     while(tmp != nullptr){
-        cout << tmp->value;
         result += to_string(tmp->value);
         tmp = tmp->next;
     }
-    cout << endl;
     return result;
 
 }
-/*
-//remove with no parameters
-void Sorted_List::remove() {
-    if(is_empty()) {
-        throw std::logic_error{"Can't remove from an empty linked list"};
-    }
-    //create tmp Link pointer copying all from first_link
-    Link* tmp{first_link};
-    //set the first link to the next one because we remove the first
-    first_link = tmp->next;
-    delete tmp;
 
-    //remove 1 from the num_of_links
-    --num_of_links;
-}
-*/
 //rm specific element
 void Sorted_List::remove(int value) {
     if(is_empty()) {
         throw std::logic_error{"Can't remove from an empty linked list"};
     }
-    // todo: check if in list
 
     Link* first{first_link};
     Link* next_link{first->next};
@@ -133,11 +116,12 @@ void Sorted_List::remove(int value) {
             delete next_link;
             num_of_links--;
         }
-        //moving all links one step forward
+        
         if (next_link->next == nullptr || first->next == nullptr){
-            cout << "Not in list" << endl;
+            //cout << "Not in list" << endl;
             break;
         }
+        //moving all links one step forward
         first = first->next;
         next_link = next_link->next;
     }
@@ -148,54 +132,55 @@ void Sorted_List::remove(int value) {
 //http://www.cs.bu.edu/~snyder/cs112/CourseMaterials/LinkedListNotes.html
 void Sorted_List::insert(Link * l, int value) {
     //l should be the current node
+
     Link* l_next{l->next};
-    //end of the list
+    //end of the list because there is no next link, simply add new link to end
     if (l->next == nullptr) {
         Link* new_link{new Link{value, nullptr}};
-        //new_link->value = value;
-        //new_link->next = nullptr;
-
         l->next = new_link;
         //new end of list
-        // we do this in the constructor - new_link->next = nullptr;
 
         num_of_links++;
     }
+    //case where the value is in the middle of two links,
+    //first create newlink and make the previous links point to the newlink, and 
+    //the new link should point to the previous links next link.
     else if (value <= l_next->value) {   
         Link* new_link{new Link{value, nullptr}};
-        //new_link->value = value;
-        //new_link->next = nullptr;
     
         //previous node points to new link
         l->next = new_link;
         //the new inserted link points to l's old link
         new_link->next = l_next;
         num_of_links++;
+    
+    //else move the two pointers one step forward and re try insert
     } else {
         insert(l_next, value);
     }
 }
 
-//recursive helper function, sorts
+//recursive sorted insert
 void Sorted_List::insert(int value) {
 
+    //if list is empty, simply create new link and make it the first_link
     if(is_empty() == true) {
         Link* new_link{new Link{value, nullptr}};
-        //new_link->value = value;
-        //new_link->next = nullptr;
+
         first_link = new_link;
         num_of_links++;
     }
 
+    //if insert value is less than the first link, create new link,
+    //then make first_link the new link, and make it point to the old first_link
     else if (value < first_link->value) {
         Link* new_link{new Link{value, nullptr}};
-       // new_link->value = value;
-       // new_link->next = nullptr;
 
         new_link->next = first_link;
         first_link = new_link;
         num_of_links++;
     }
+    //else recursively call the overloaded insert function to check rest of list
     else {
         insert(first_link, value);
     }

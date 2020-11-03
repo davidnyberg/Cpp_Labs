@@ -52,17 +52,14 @@ TEST_CASE( "Test remove function" ){
   //test edge case when list is empty
   CHECK_THROWS(list.remove(5));
 
-  //need to remove a specific element
   Sorted_List list1{1,2,3,4,5};
   list1.remove(5);
-}
-
-TEST_CASE("Testing copy assignment") {
-  Sorted_List list{5};
-  Sorted_List list2{};
-
-  list2 = list;
-  CHECK_FALSE(list2.is_empty());
+  CHECK(list1.print_list() == "1234");
+  list1.remove(1);
+  CHECK(list1.print_list() == "234");
+  //test remove something not in list, no change to list
+  list1.remove(10);
+  CHECK(list1.print_list() == "234");
 }
 
 TEST_CASE("Test print function") {
@@ -92,15 +89,16 @@ TEST_CASE("Test print function") {
   correct = "1357";
   v = list.print_list();
   CHECK(v == correct);
-  /*
+  
   list.insert(4);
   correct = "13457";
   v = list.print_list();
   CHECK(v == correct);
-  */
+  
+  //checks remove
   list.remove(1);
   list.remove(3);
-  //list.remove(4);
+  list.remove(4);
   list.remove(5);
   list.remove(7);
   CHECK("" == list.print_list());
@@ -110,6 +108,7 @@ TEST_CASE("MOVE OPERATOR"){
     Sorted_List list{2,3};
     Sorted_List list2{};
 
+    std::cout << "Should call move: ";
     list2 = std::move(list);
     CHECK(list.is_empty());
     CHECK_FALSE(list2.is_empty());
@@ -118,15 +117,31 @@ TEST_CASE("MOVE OPERATOR"){
 TEST_CASE("COPY OPERATOR"){
     Sorted_List list{2,3};
     Sorted_List list2{1};
-    CHECK_FALSE(list2.is_empty());
-    std::cout << "hello" << std::endl;
-    list.print_list();
-    list2.print_list();
+    CHECK_FALSE(list.size() == list2.size());
+
+    std::cout << "Should call copy: ";
     list2 = list;
-    list.print_list();
-    list2.print_list();
+
     CHECK_FALSE(list.is_empty());
     CHECK_FALSE(list2.is_empty());
     CHECK(list.size() == list2.size());
+}
 
+TEST_CASE("Copy constructor") {
+    Sorted_List old_list{1,2,3};
+    std::cout << "Should call copy constructor: ";
+    Sorted_List new_list{ old_list }; 
+
+    CHECK_FALSE(old_list.is_empty());
+    CHECK(new_list.size() == 3);
+    CHECK(old_list.size() == 3);
+}
+
+TEST_CASE("Move constructor") {
+  Sorted_List old_list{1,2,3};
+
+  std::cout << "Should call move constructor: ";
+  Sorted_List new_list{ std::move(old_list) }; 
+  CHECK(old_list.is_empty());
+  CHECK(new_list.size() == 3);
 }
