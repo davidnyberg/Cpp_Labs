@@ -7,7 +7,8 @@ using namespace std;
 
 //constructors
 Sorted_List::Sorted_List() : first_link{nullptr} {}
-Sorted_List::Sorted_List(initializer_list<int> list) : first_link{nullptr} {
+Sorted_List::Sorted_List(initializer_list<int> list) {
+
     for (int i : list) {
         insert(i);
     }
@@ -21,7 +22,7 @@ Sorted_List::~Sorted_List() {
 }
 
 //copy constructor, //deep copy using copy function to avoid memory leaks
-Sorted_List::Sorted_List(Sorted_List const& other) : first_link{copy(other.first_link)}, num_of_links{other.num_of_links} {
+Sorted_List::Sorted_List(Sorted_List const& other) :  num_of_links{other.num_of_links}, first_link{copy(other.first_link)} {
     std::cout << "Called copy constructor" << std::endl;
     }
 
@@ -29,15 +30,17 @@ Sorted_List::Sorted_List(Sorted_List const& other) : first_link{copy(other.first
 //copy assignment operator
 Sorted_List& Sorted_List::operator=(Sorted_List const& other) {
     std::cout << "Called copy assignment" << std::endl;
-
-    first_link = copy(other.first_link);
-    num_of_links = other.num_of_links;
-
+    Sorted_List tmp{other};
+    //num_of_links = other.num_of_links;
+    //first_link = copy(other.first_link);
+    swap(first_link, tmp.first_link);
+    swap(num_of_links, tmp.num_of_links);
+    
     return *this; //derefence this pointer to return the current object
 }
 
 // move constructor
-Sorted_List::Sorted_List(Sorted_List&& other) : first_link{other.first_link}, num_of_links{other.num_of_links} {
+Sorted_List::Sorted_List(Sorted_List&& other) : num_of_links{other.num_of_links}, first_link{other.first_link}{
     std::cout << "Called move constructor" << std::endl;
     //perform move by changing the pointers
     
@@ -52,6 +55,7 @@ Sorted_List& Sorted_List::operator=(Sorted_List&& other) {
 
     swap(other.first_link, first_link);
     swap(other.num_of_links, num_of_links);
+    other.first_link = nullptr;
 
     return *this;
 }
@@ -86,6 +90,7 @@ std::string Sorted_List::print_list() {
         result += to_string(tmp->value);
         tmp = tmp->next;
     }
+    //delete tmp;
     return result;
 
 }
@@ -105,6 +110,7 @@ void Sorted_List::remove(int value) {
         //move the first link to next link
         first_link = next_link;
         num_of_links--;
+        return; //fixed errors with valgrind
     }
     //if not the first node, check rest of the list
     //for (int i{1}; i < num_of_links; i++) {
@@ -115,11 +121,7 @@ void Sorted_List::remove(int value) {
             next_link->next = nullptr;
             delete next_link;
             num_of_links--;
-        }
-        
-        if (next_link->next == nullptr || first->next == nullptr){
-            //cout << "Not in list" << endl;
-            break;
+            return;//fixed errors with valgrind
         }
         //moving all links one step forward
         first = first->next;
@@ -139,8 +141,8 @@ void Sorted_List::insert(Link * l, int value) {
         Link* new_link{new Link{value, nullptr}};
         l->next = new_link;
         //new end of list
-
         num_of_links++;
+        delete l_next;
     }
     //case where the value is in the middle of two links,
     //first create newlink and make the previous links point to the newlink, and 
@@ -164,7 +166,7 @@ void Sorted_List::insert(Link * l, int value) {
 void Sorted_List::insert(int value) {
 
     //if list is empty, simply create new link and make it the first_link
-    if(is_empty() == true) {
+    if(is_empty()) {
         Link* new_link{new Link{value, nullptr}};
 
         first_link = new_link;

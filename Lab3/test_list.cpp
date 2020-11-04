@@ -89,16 +89,9 @@ TEST_CASE("Test print function") {
   correct = "1357";
   v = list.print_list();
   CHECK(v == correct);
-  
-  list.insert(4);
-  correct = "13457";
-  v = list.print_list();
-  CHECK(v == correct);
-  
-  //checks remove
+
   list.remove(1);
   list.remove(3);
-  list.remove(4);
   list.remove(5);
   list.remove(7);
   CHECK("" == list.print_list());
@@ -115,8 +108,9 @@ TEST_CASE("MOVE OPERATOR"){
 }
 
 TEST_CASE("COPY OPERATOR"){
-    Sorted_List list{2,3};
-    Sorted_List list2{1};
+    Sorted_List list2{1,2};
+    Sorted_List list{2,3,4};
+
     CHECK_FALSE(list.size() == list2.size());
 
     std::cout << "Should call copy: ";
@@ -125,6 +119,7 @@ TEST_CASE("COPY OPERATOR"){
     CHECK_FALSE(list.is_empty());
     CHECK_FALSE(list2.is_empty());
     CHECK(list.size() == list2.size());
+    CHECK(list2.print_list() == list.print_list());
 }
 
 TEST_CASE("Copy constructor") {
