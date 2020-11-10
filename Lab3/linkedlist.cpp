@@ -68,18 +68,18 @@ Sorted_List::Link* Sorted_List::copy(Sorted_List::Link const* n) const {
     return new Link{n->value, copy(n->next)};
 }
 
-bool Sorted_List::is_empty() {
+bool Sorted_List::is_empty() const {
     //linked list is empty if first_link points to nullptr
     return first_link == nullptr;
 }
 
 //return the size of the linked list
-int Sorted_List::size() {
+int Sorted_List::size() const {
     return num_of_links;
 }
 
 //Note: returning string is mostly for testing, can be void
-std::string Sorted_List::print_list() {
+std::string Sorted_List::print_list() const {
     std::string result = "";
     if(is_empty()) {
         return result;
@@ -132,7 +132,7 @@ void Sorted_List::remove(int value) {
 //Sources:
 //https://stackoverflow.com/questions/16632174/linked-list-insert-function-recursively-c
 //http://www.cs.bu.edu/~snyder/cs112/CourseMaterials/LinkedListNotes.html
-void Sorted_List::insert(Link * l, int value) {
+void Sorted_List::hidden_insert(Link * l, int value) {
     //l should be the current node
 
     Link* l_next{l->next};
@@ -158,7 +158,7 @@ void Sorted_List::insert(Link * l, int value) {
     
     //else move the two pointers one step forward and re try insert
     } else {
-        insert(l_next, value);
+        hidden_insert(l_next, value);
     }
 }
 
@@ -184,6 +184,6 @@ void Sorted_List::insert(int value) {
     }
     //else recursively call the overloaded insert function to check rest of list
     else {
-        insert(first_link, value);
+        hidden_insert(first_link, value);
     }
 }

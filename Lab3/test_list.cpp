@@ -23,6 +23,11 @@
 //=======================================================================
 // It is your job to create new test cases and fully test your Sorted_List class
 
+//TODO: Complementary work needed, testing both versions of copy/move
+//should include modifying a list and show that the other is not
+//affected (hard copy).
+//DONE
+
 TEST_CASE( "Create an empty list" ) {
   Sorted_List list{};
   CHECK(list.is_empty());
@@ -105,6 +110,13 @@ TEST_CASE("MOVE OPERATOR"){
     list2 = std::move(list);
     CHECK(list.is_empty());
     CHECK_FALSE(list2.is_empty());
+
+   //Completion work, shows changing a copied list is not affecting the copier
+    list2.insert(5);
+    list.insert(1);
+    CHECK(list2.print_list() == "235");
+    CHECK(list.print_list() == "1");
+
 }
 
 TEST_CASE("COPY OPERATOR"){
@@ -120,6 +132,16 @@ TEST_CASE("COPY OPERATOR"){
     CHECK_FALSE(list2.is_empty());
     CHECK(list.size() == list2.size());
     CHECK(list2.print_list() == list.print_list());
+
+    //Completion work, shows changing a copied list is not affecting the copier
+    list2.insert(5);
+    CHECK(list2.print_list() == "2345");
+    CHECK(list.print_list() == "234");
+
+    list.insert(9);
+    CHECK(list2.print_list() == "2345");
+    CHECK(list.print_list() == "2349");
+
 }
 
 TEST_CASE("Copy constructor") {
@@ -130,6 +152,15 @@ TEST_CASE("Copy constructor") {
     CHECK_FALSE(old_list.is_empty());
     CHECK(new_list.size() == 3);
     CHECK(old_list.size() == 3);
+
+    //Completion work, shows changing a copied list is not affecting the copier
+    old_list.insert(9);
+    CHECK(old_list.print_list() == "1239");
+    CHECK(new_list.print_list() == "123");
+
+    new_list.insert(4);
+    CHECK(old_list.print_list() == "1239");
+    CHECK(new_list.print_list() == "1234");
 }
 
 TEST_CASE("Move constructor") {
@@ -139,4 +170,13 @@ TEST_CASE("Move constructor") {
   Sorted_List new_list{ std::move(old_list) }; 
   CHECK(old_list.is_empty());
   CHECK(new_list.size() == 3);
+
+    //Completion work, shows changing a copied list is not affecting the copier
+    old_list.insert(9);
+    CHECK(old_list.print_list() == "9");
+    CHECK(new_list.print_list() == "123");
+
+    new_list.insert(4);
+    CHECK(old_list.print_list() == "9");
+    CHECK(new_list.print_list() == "1234");
 }
