@@ -13,11 +13,11 @@ struct Connection {
 class Component {
 public:
     Component(std::string name, Connection& a, Connection& b);
+    virtual ~Component() = default;
     virtual void simulate() const = 0;
     virtual void current() = 0;
-    virtual ~Component() = default;
 protected:
-    //allias every component has a and b
+    //every component has a and b and name
     Connection& a;
     Connection& b;
     std::string name{""};

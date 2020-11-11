@@ -5,9 +5,10 @@
 
 class Capacitor : public Component {
 public:
-    void simulate() const override {
-        std::cout << "capacitor simulate" << std::endl;
-    }
+    Capacitor(std::string name, double farad, double load, Connection& a, Connection& b);
+    void simulate() const override;
+    void current() override;
+
 private:
     double farad{};
     double load{};

@@ -5,15 +5,11 @@
 
 class Resistor : public Component {
 public:
-    Resistor(std::string name, double resistance, Connection& a, Connection& b);// : Component(name, a, b), resistance{resistance} {}
-    void simulate() const override {
-        std::cout << "resistor simulate" << std::endl;
-    }
-    void current() override {
-        std::cout << "current resisitor" << std::endl;
-    }
+    Resistor(std::string name, double resistance, Connection& a, Connection& b);
+    void simulate() const override;
+    void current() override;
 private:
-    double resistance{};
+    double const resistance{};
 };
 
 #endif
