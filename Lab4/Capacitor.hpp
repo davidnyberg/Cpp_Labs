@@ -10,8 +10,7 @@ public:
     void current() override;
 
 private:
-    double farad{};
-    double load{};
+    double fahrad{};
 };
 
 #endif

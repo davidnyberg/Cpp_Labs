@@ -11,8 +11,7 @@ public:
     void print_voltage() const;
     void set_connection_values() const;
 private:
-    //voltage over a component is measured by taking the difference between each terminal.
-    double const voltage{};
+    
 };
 
 #endif

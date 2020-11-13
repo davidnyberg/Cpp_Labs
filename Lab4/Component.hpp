@@ -4,7 +4,6 @@
 #include <string>
 #include <iostream>
 
-//struct because aggregate
 struct Connection {
     //contain current charge of connection
     double charge{};
@@ -16,6 +15,8 @@ public:
     virtual ~Component() = default;
     virtual void simulate() const = 0;
     virtual void current() = 0;
+    get voltage
+    virtual getcurrent
 protected:
     //every component has a and b and name
     Connection& a;

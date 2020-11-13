@@ -2,6 +2,7 @@
 #include "Capacitor.hpp"
 #include "Resistor.hpp"
 #include "Component.hpp"
+#include "Circuit.hpp"
 
 #include <vector>
 
@@ -10,7 +11,7 @@ using namespace std;
 
 void simulate(vector<Component*>& circuit, int& iterations, int& n_outputs, double& time_step, double& voltage) {
     for (auto element : circuit) {
-        element->simulate(iterations, time_step);
+        element->simulate();
     }
 }
 
@@ -45,4 +46,6 @@ int main(int argc, char* argv[]) {
     bat.set_connection_values();    
     //simulate(circuit);
 
+    Circuit cir{"my_cir", circuit};
+    cir.simulate_circuit();
 }
