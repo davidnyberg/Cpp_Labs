@@ -5,14 +5,15 @@
 
 class Capacitor : public Component {
 public:
-    Capacitor(std::string name, double fahrad, Connection& a, Connection& b);
+    Capacitor(std::string name, float fahrad, Connection& a, Connection& b);
     void simulate() const override;
     void current() override;
-    void set_connection_values();
+    void set_connection_values(float timestep);
     float getcurrent() const override;
 
 private:
-    double fahrad{0.0};
+    float fahrad{0.0};
+    float charge{0.0};
 };
 
 #endif

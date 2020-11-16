@@ -9,7 +9,7 @@
 using namespace std;
 
 
-void simulate(vector<Component*>& circuit, int& iterations, int& n_outputs, double& time_step, double& voltage) {
+void simulate(vector<Component*>& circuit, int& iterations, int& n_outputs, float& time_step, float& voltage) {
     for (auto element : circuit) {
         element->simulate();
     }
@@ -19,8 +19,8 @@ int main(int argc, char* argv[]) {
 
     int iterations{0};
     int n_outputs{0};
-    double time_step{0};
-    double voltage{0};
+    float time_step{0};
+    float voltage{0};
 
     //store cmd line arguments into a vector of strings intstead of c-strings
     vector<string> args {argv, argv + argc};
@@ -30,8 +30,8 @@ int main(int argc, char* argv[]) {
     }
     iterations = {stoi(args[1])};
     n_outputs = {stoi(args[2])};
-    time_step = {stod(args[3])};
-    voltage = {stod(args[4])};
+    time_step = {stof(args[3])};
+    voltage = {stof(args[4])};
     cout << iterations << " " << n_outputs << " " << time_step << " " << voltage << endl;
 
 
@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
     bat.getvoltage();
     res.set_connection_values(1);
     res.getvoltage();
-    cap.set_connection_values();
+    cap.set_connection_values(1);
     cap.getvoltage();
 
     Circuit cir{"my_cir", circuit};

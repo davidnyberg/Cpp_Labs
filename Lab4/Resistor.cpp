@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Resistor::Resistor(string name, double resistance, Connection& a, Connection& b) : Component(name, a, b), resistance{resistance} {}
+Resistor::Resistor(string name, float resistance, Connection& a, Connection& b) : Component(name, a, b), resistance{resistance} {}
 
 void Resistor::simulate() const {
     cout << "resistorar SIM" << endl;

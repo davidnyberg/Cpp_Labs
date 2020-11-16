@@ -6,7 +6,7 @@
 
 struct Connection {
     //contain current charge of connection
-    double charge{};
+    float charge{};
 };
 
 class Component {

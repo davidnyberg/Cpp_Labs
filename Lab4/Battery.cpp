@@ -1,7 +1,7 @@
 #include "Battery.hpp"
 
 using namespace std;
-Battery::Battery(std::string name, double voltage, Connection& a, Connection& b) : Component(name, a , b), voltage{voltage} {}
+Battery::Battery(std::string name, float voltage, Connection& a, Connection& b) : Component(name, a , b), voltage{voltage} {}
 
 void Battery::simulate() const {
     cout << "battery simulation" << endl;
