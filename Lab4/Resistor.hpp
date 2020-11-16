@@ -11,7 +11,7 @@ public:
     void current() override;
     float getcurrent() const override;
 private:
-    double const resistance{};
+    double const resistance{0.0};
 };
 
 #endif

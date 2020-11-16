@@ -41,9 +41,16 @@ int main(int argc, char* argv[]) {
     circuit.push_back(new Resistor("R1",  6.00, P, r124));
     circuit.push_back(new Capacitor("Cap1", 2.0, P, N));
 
+    //testing
     Battery bat("Bat", 24.00, P, N);
+    Resistor res("R", 6.00, P, N);
+    Capacitor cap("Cap", 2.0, P, N);
     bat.set_connection_values();
-    //simulate(circuit);
+    bat.getvoltage();
+    res.set_connection_values();
+    res.getvoltage();
+    cap.set_connection_values();
+    cap.getvoltage();
 
     Circuit cir{"my_cir", circuit};
     cir.simulate_circuit();

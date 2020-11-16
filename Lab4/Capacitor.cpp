@@ -21,4 +21,5 @@ void Capacitor::set_connection_values() {
 
 float Capacitor::getcurrent() const {
     cout << "get current" << endl;
+    return 0.0;
 }

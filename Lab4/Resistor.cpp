@@ -10,7 +10,8 @@ void Resistor::simulate() const {
 
 void Resistor::current() {
         //voltage / resistance
-    cout << "resistor current" << endl;
+    float voltage{getvoltage()};
+    cout << "resistor current" << voltage/resistance <<endl;
 }
 
 void Resistor::set_connection_values() {
@@ -21,4 +22,5 @@ void Resistor::set_connection_values() {
 
 float Resistor::getcurrent() const {
     cout << "get current" << endl;
+    return 0.0;
 }

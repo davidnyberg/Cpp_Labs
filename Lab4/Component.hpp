@@ -15,9 +15,8 @@ public:
     virtual ~Component() = default;
     virtual void simulate() const = 0;
     virtual void current() = 0;
-    //virtual float get_voltage() = 0;
     virtual float getcurrent() const = 0;
-    int getvoltage();
+    float getvoltage();
 protected:
     //every component has a and b and name
     Connection& a;

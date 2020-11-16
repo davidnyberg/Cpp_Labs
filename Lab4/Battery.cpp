@@ -19,5 +19,5 @@ void Battery::set_connection_values() const {
 
 float Battery::getcurrent() const {
     cout << "get current" << endl;
-
+    return 0.0;
 }
