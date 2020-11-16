@@ -9,3 +9,4 @@ Circuit::Circuit(std::string circuit_name, std::vector<Component*> circuit_vec) 
 void Circuit::simulate_circuit() {
     cout << "In circuit object simulate" << endl;
 }
+

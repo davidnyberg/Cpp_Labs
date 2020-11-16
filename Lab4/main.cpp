@@ -39,11 +39,10 @@ int main(int argc, char* argv[]) {
     vector<Component*> circuit;
     circuit.push_back(new Battery("Bat", 24.00, P, N));
     circuit.push_back(new Resistor("R1",  6.00, P, r124));
-    circuit.push_back(new Capacitor("Cap1", 2.0, 2.0, P, N));
+    circuit.push_back(new Capacitor("Cap1", 2.0, P, N));
 
     Battery bat("Bat", 24.00, P, N);
-    bat.print_voltage();
-    bat.set_connection_values();    
+    bat.set_connection_values();
     //simulate(circuit);
 
     Circuit cir{"my_cir", circuit};

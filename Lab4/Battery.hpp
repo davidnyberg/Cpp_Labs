@@ -10,7 +10,9 @@ public:
     void current() override;
     void print_voltage() const;
     void set_connection_values() const;
+    float getcurrent() const override ;
 private:
+    double voltage{0.0};
     
 };
 
