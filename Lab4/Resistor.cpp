@@ -14,10 +14,13 @@ void Resistor::current() {
     cout << "resistor current" << voltage/resistance <<endl;
 }
 
-void Resistor::set_connection_values() {
+void Resistor::set_connection_values(float timestep) {
+    if(a.charge < b.charge){
+        a.charge = (abs(a.charge - b.charge)/resistance) * timestep;
+    }else{
+        b.charge = (abs(a.charge - b.charge)/resistance) * timestep;
+    }
     cout << "setting connection values a and b" << endl;
-    a.charge = {0.0};
-    b.charge = {0.0};
 }
 
 float Resistor::getcurrent() const {

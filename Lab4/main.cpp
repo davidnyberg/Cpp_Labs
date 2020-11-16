@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
     Capacitor cap("Cap", 2.0, P, N);
     bat.set_connection_values();
     bat.getvoltage();
-    res.set_connection_values();
+    res.set_connection_values(1);
     res.getvoltage();
     cap.set_connection_values();
     cap.getvoltage();
