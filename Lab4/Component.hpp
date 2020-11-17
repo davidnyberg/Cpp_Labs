@@ -14,9 +14,8 @@ public:
     Component(std::string name, Connection& a, Connection& b);
     virtual ~Component() = default;
     virtual void simulate() const = 0;
-    virtual void current() = 0;
-    virtual float getcurrent() const = 0;
-    float getvoltage();
+    virtual float get_current() = 0;
+    float get_voltage();
 protected:
     //every component has a and b and name
     Connection& a;

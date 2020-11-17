@@ -8,22 +8,18 @@ void Resistor::simulate() const {
     cout << "resistorar SIM" << endl;
 }
 
-void Resistor::current() {
+float Resistor::get_current() {
         //voltage / resistance
-    float voltage{getvoltage()};
+    float voltage{get_voltage()};
     cout << "resistor current" << voltage/resistance <<endl;
+    return voltage/resistance;
 }
 
-void Resistor::set_connection_values(float timestep) {
+void Resistor::set_connection_values(float& timestep) {
     if(a.charge < b.charge){
         a.charge = (abs(a.charge - b.charge)/resistance) * timestep;
     }else{
         b.charge = (abs(a.charge - b.charge)/resistance) * timestep;
     }
     cout << "setting connection values a and b" << endl;
-}
-
-float Resistor::getcurrent() const {
-    cout << "get current" << endl;
-    return 0.0;
 }

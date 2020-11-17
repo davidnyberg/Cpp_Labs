@@ -24,16 +24,23 @@ int main(int argc, char* argv[]) {
 
     //store cmd line arguments into a vector of strings intstead of c-strings
     vector<string> args {argv, argv + argc};
-    if (args.size() < 5){
-        cerr << "Error: Enter number of iterations, number of lines to print, time step, battery voltage." << endl;
-        return 1;
-    }
-    iterations = {stoi(args[1])};
-    n_outputs = {stoi(args[2])};
-    time_step = {stof(args[3])};
-    voltage = {stof(args[4])};
-    cout << iterations << " " << n_outputs << " " << time_step << " " << voltage << endl;
 
+    if (args.size() != 5){
+        cerr << "Error: Provide number of iterations(int), number of lines to print(int), time step(float), battery voltage(float)." << endl;
+        return 1;
+    } else {
+        try{
+            iterations = {stoi(args[1])};
+            n_outputs = {stoi(args[2])};
+            time_step = {stof(args[3])};
+            voltage = {stof(args[4])};
+        } catch(invalid_argument& error) {
+            cerr << "Error: invalid_argument at: " << error.what() << endl;
+            cerr << "Error: Provide number of iterations(int), number of lines to print(int), time step(float), battery voltage(float)." << endl;
+            return 1;
+        }
+        cout << iterations << " " << n_outputs << " " << time_step << " " << voltage << endl;
+    }
 
     Connection P, N, r124;
     vector<Component*> circuit;
@@ -46,11 +53,11 @@ int main(int argc, char* argv[]) {
     Resistor res("R", 6.00, P, N);
     Capacitor cap("Cap", 2.0, P, N);
     bat.set_connection_values();
-    bat.getvoltage();
-    res.set_connection_values(1);
-    res.getvoltage();
-    cap.set_connection_values(1);
-    cap.getvoltage();
+    bat.get_voltage();
+    res.set_connection_values(time_step);
+    res.get_voltage();
+    cap.set_connection_values(time_step);
+    cap.get_voltage();
 
     Circuit cir{"my_cir", circuit};
     cir.simulate_circuit();

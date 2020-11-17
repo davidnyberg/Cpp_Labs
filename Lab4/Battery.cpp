@@ -7,17 +7,14 @@ void Battery::simulate() const {
     cout << "battery simulation" << endl;
 }
 
-void Battery::current() {
-    cout << "Battery has zero current" << endl;
-}
-
 void Battery::set_connection_values() const {
     cout << "setting connection values a and b" << endl;
     a.charge = {voltage};
     b.charge = {0.0};
 }
 
-float Battery::getcurrent() const {
-    cout << "get current" << endl;
+float Battery::get_current() {
+    //battery is always zero current
+    cout << "get battery current" << endl;
     return 0.0;
 }
