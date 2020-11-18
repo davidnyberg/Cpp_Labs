@@ -12,21 +12,28 @@ using namespace std;
 
 
 void simulate(vector<Component*>& circuit, int& iterations, int& n_outputs, float& time_step) {
+    //print all the element names and setup the output table
     for (auto element : circuit) {
         cout << element->get_name() << "\t\t";
     }
     cout << endl;
+    cout << fixed;
+    cout << setprecision(2);
 
     for(int i{0}; i < iterations; ++i) {
         for (auto element : circuit) {
-                std::cout << std::fixed;
-                std::cout << std::setprecision(2);
             element->set_connection_values(time_step);
-            if (i %  (iterations / n_outputs) == 0)  
+            if (i %  (iterations / n_outputs) == 0) //print only n_outputs times  
                 cout << element->get_voltage() << " " << element->get_current() << "\t";
         }
     if (i %  (iterations / n_outputs) == 0)
         cout << endl;
+    }
+}
+
+void deallocate_components(vector<Component*>& circuit) {
+    for (auto element : circuit) {
+        delete element;
     }
 }
 
@@ -66,18 +73,8 @@ int main(int argc, char* argv[]) {
     circuit.push_back(new Resistor("R4",  12.0, R124, N));
     //circuit.push_back(new Capacitor("Cap1", 2.0, P, N));
     simulate(circuit, iterations, n_outputs, time_step);
-    //testing
-    /*
-    Battery bat("Bat", 24.00, P, N);
-    Resistor res("R", 6.00, P, N);
-    Capacitor cap("Cap", 2.0, P, N);
-    bat.set_connection_values();
-    bat.get_voltage();
-    res.set_connection_values(time_step);
-    res.get_voltage();
-    cap.set_connection_values(time_step);
-    cap.get_voltage();
-    */
+    deallocate_components(circuit);
+
     //Circuit cir{"my_cir", circuit};
     //cir.simulate_circuit();
 }
