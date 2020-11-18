@@ -21,7 +21,6 @@ double Resistor::get_current() const {
 
 //resistor will move charge from most charged to least charged
 void Resistor::set_connection_values(double& timestep) {
-    //a is 5, b is 9
     if(a.charge < b.charge){
         a.charge += (abs(a.charge - b.charge)/resistance) * timestep;
         b.charge -= (abs(a.charge - b.charge)/resistance) * timestep;
