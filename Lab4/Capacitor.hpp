@@ -8,7 +8,8 @@ public:
     Capacitor(std::string name, float fahrad, Connection& a, Connection& b);
     void simulate() const override;
     void set_connection_values(float& timestep);
-    float get_current() override;
+    float get_current() const override;
+    std::string get_name() const override;
 
 private:
     float fahrad{0.0};

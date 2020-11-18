@@ -8,7 +8,9 @@ public:
     Resistor(std::string name, float resistance, Connection& a, Connection& b);
     void set_connection_values(float& timestep);
     void simulate() const override;
-    float get_current() override;
+    float get_current() const override;
+    std::string get_name() const override;
+
 private:
     float const resistance{0.0};
 };

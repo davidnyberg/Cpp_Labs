@@ -5,13 +5,28 @@
 #include "Circuit.hpp"
 
 #include <vector>
+#include <iomanip>
+
 
 using namespace std;
 
 
-void simulate(vector<Component*>& circuit, int& iterations, int& n_outputs, float& time_step, float& voltage) {
+void simulate(vector<Component*>& circuit, int& iterations, int& n_outputs, float& time_step) {
     for (auto element : circuit) {
-        element->simulate();
+        cout << element->get_name() << "\t\t";
+    }
+    cout << endl;
+
+    for(int i{0}; i < iterations; ++i) {
+        for (auto element : circuit) {
+                std::cout << std::fixed;
+                std::cout << std::setprecision(2);
+            element->set_connection_values(time_step);
+            if (i %  (iterations / n_outputs) == 0)  
+                cout << element->get_voltage() << " " << element->get_current() << "\t";
+        }
+    if (i %  (iterations / n_outputs) == 0)
+        cout << endl;
     }
 }
 
@@ -39,16 +54,20 @@ int main(int argc, char* argv[]) {
             cerr << "Error: Provide number of iterations(int), number of lines to print(int), time step(float), battery voltage(float)." << endl;
             return 1;
         }
-        cout << iterations << " " << n_outputs << " " << time_step << " " << voltage << endl;
+        //cout << iterations << " " << n_outputs << " " << time_step << " " << voltage << endl;
     }
 
-    Connection P, N, r124;
+    Connection P, N, R1, R2, R4, R124, R23;
     vector<Component*> circuit;
-    circuit.push_back(new Battery("Bat", 24.00, P, N));
-    circuit.push_back(new Resistor("R1",  6.00, P, r124));
-    circuit.push_back(new Capacitor("Cap1", 2.0, P, N));
-
+    circuit.push_back(new Battery("Bat", voltage, P, N));
+    circuit.push_back(new Resistor("R1",  6.00, P, R124));
+    circuit.push_back(new Resistor("R2", 4.0, R124, R23));
+    circuit.push_back(new Resistor("R3",  8.0, R23, N));
+    circuit.push_back(new Resistor("R4",  12.0, R124, N));
+    //circuit.push_back(new Capacitor("Cap1", 2.0, P, N));
+    simulate(circuit, iterations, n_outputs, time_step);
     //testing
+    /*
     Battery bat("Bat", 24.00, P, N);
     Resistor res("R", 6.00, P, N);
     Capacitor cap("Cap", 2.0, P, N);
@@ -58,7 +77,7 @@ int main(int argc, char* argv[]) {
     res.get_voltage();
     cap.set_connection_values(time_step);
     cap.get_voltage();
-
-    Circuit cir{"my_cir", circuit};
-    cir.simulate_circuit();
+    */
+    //Circuit cir{"my_cir", circuit};
+    //cir.simulate_circuit();
 }
