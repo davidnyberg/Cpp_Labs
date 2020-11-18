@@ -11,10 +11,14 @@
 using namespace std;
 
 
-void simulate(vector<Component*>& circuit, int& iterations, int& n_outputs, float& time_step) {
+void simulate(vector<Component*>& circuit, int& iterations, int& n_outputs, double& time_step) {
     //print all the element names and setup the output table
     for (auto element : circuit) {
         cout << element->get_name() << "\t\t";
+    }
+    cout << endl;
+    for (int i{0}; i < circuit.size(); ++i){
+        cout << "Volt  Curr\t";
     }
     cout << endl;
     cout << fixed;
@@ -35,20 +39,22 @@ void deallocate_components(vector<Component*>& circuit) {
     for (auto element : circuit) {
         delete element;
     }
+    circuit.clear();
+
 }
 
 int main(int argc, char* argv[]) {
 
     int iterations{0};
     int n_outputs{0};
-    float time_step{0};
-    float voltage{0};
+    double time_step{0};
+    double voltage{0};
 
     //store cmd line arguments into a vector of strings intstead of c-strings
     vector<string> args {argv, argv + argc};
 
     if (args.size() != 5){
-        cerr << "Error: Provide number of iterations(int), number of lines to print(int), time step(float), battery voltage(float)." << endl;
+        cerr << "Error: Provide number of iterations(int), number of lines to print(int), time step(double), battery voltage(double)." << endl;
         return 1;
     } else {
         try{
@@ -58,22 +64,45 @@ int main(int argc, char* argv[]) {
             voltage = {stof(args[4])};
         } catch(invalid_argument& error) {
             cerr << "Error: invalid_argument at: " << error.what() << endl;
-            cerr << "Error: Provide number of iterations(int), number of lines to print(int), time step(float), battery voltage(float)." << endl;
+            cerr << "Error: Provide number of iterations(int), number of lines to print(int), time step(double), battery voltage(double)." << endl;
             return 1;
         }
         //cout << iterations << " " << n_outputs << " " << time_step << " " << voltage << endl;
     }
 
-    Connection P, N, R1, R2, R4, R124, R23;
+    Connection P, N, L, R, R1, R2, R3, R4, R124, R23;
     vector<Component*> circuit;
+
     circuit.push_back(new Battery("Bat", voltage, P, N));
     circuit.push_back(new Resistor("R1",  6.00, P, R124));
     circuit.push_back(new Resistor("R2", 4.0, R124, R23));
     circuit.push_back(new Resistor("R3",  8.0, R23, N));
     circuit.push_back(new Resistor("R4",  12.0, R124, N));
-    //circuit.push_back(new Capacitor("Cap1", 2.0, P, N));
     simulate(circuit, iterations, n_outputs, time_step);
     deallocate_components(circuit);
+
+    cout << endl;
+
+    circuit.push_back(new Battery("Bat", voltage, P, N));
+    circuit.push_back(new Resistor("R1",  150.0, L, P));
+    circuit.push_back(new Resistor("R2", 50.0, P, R));
+    circuit.push_back(new Resistor("R3",  100.0, L, R));
+    circuit.push_back(new Resistor("R4",  300.0, L, N));
+    circuit.push_back(new Resistor("R5",  250.0, N, R));
+    simulate(circuit, iterations, n_outputs, time_step);
+    deallocate_components(circuit);
+
+    cout << endl;
+
+    circuit.push_back(new Battery("Bat", voltage, P, N));
+    circuit.push_back(new Resistor("R1",  150.0, L, P));
+    circuit.push_back(new Resistor("R2", 50.0, P, R));
+    circuit.push_back(new Capacitor("C3", 1.0, L, R));
+    circuit.push_back(new Resistor("R4",  300.0, L, N));
+    circuit.push_back(new Capacitor("C4",  0.75, N, R));
+    simulate(circuit, iterations, n_outputs, time_step);
+    deallocate_components(circuit);
+    
 
     //Circuit cir{"my_cir", circuit};
     //cir.simulate_circuit();
