@@ -13,8 +13,7 @@ class Component {
 public:
     Component(std::string name, Connection& a, Connection& b);
     virtual ~Component() = default;
-    virtual void simulate() const = 0;
-    virtual void set_connection_values(double& timestep) = 0;
+    virtual void set_connection_values(const double& timestep) = 0;
     virtual double get_current() const = 0;
     double get_voltage() const;
     virtual std::string get_name() const = 0;

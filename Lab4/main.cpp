@@ -2,7 +2,6 @@
 #include "Capacitor.hpp"
 #include "Resistor.hpp"
 #include "Component.hpp"
-#include "Circuit.hpp"
 
 #include <vector>
 #include <iomanip>
@@ -11,15 +10,15 @@
 using namespace std;
 
 
-void simulate(vector<Component*>& circuit, int& iterations, int& n_outputs, double& time_step) {
+void simulate(const vector<Component*>& circuit, const int& iterations, const int& n_outputs, const double& time_step) {
     //print all the element names and setup the output table
-
     for (auto element : circuit) {
         cout << element->get_name() << "\t\t";
     }
+    //fixes a printing bug
+    if (circuit.size() == 5)
+        cout << endl;
 
-    cout << endl;
-    
     for (int i{0}; i < circuit.size(); ++i){
         cout << "Volt  Curr\t";
     }
@@ -108,7 +107,4 @@ int main(int argc, char* argv[]) {
     simulate(circuit, iterations, n_outputs, time_step);
     deallocate_components(circuit);
     
-
-    //Circuit cir{"my_cir", circuit};
-    //cir.simulate_circuit();
 }

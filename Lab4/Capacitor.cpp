@@ -8,17 +8,13 @@ string Capacitor::get_name() const {
     return name;
 }
 
-void Capacitor::simulate() const {
-    cout << "battery simulation" << endl;
-}
-
-void Capacitor::set_connection_values(double& timestep) {
+void Capacitor::set_connection_values(const double& timestep) {
     //cout << "setting connection values a and b" << endl;
     //will drain its most positive terminal of some positive charge, 
     //and drain its least positive terminal of an equal amount of negative charge
 
     double potential{get_voltage()};
-    double extra_charge = fahrad * max((potential - charge), 0.0) * timestep;
+    double extra_charge{fahrad * max((potential - charge), 0.0) * timestep};
 
     charge += extra_charge;
     if(a.charge < b.charge) {
