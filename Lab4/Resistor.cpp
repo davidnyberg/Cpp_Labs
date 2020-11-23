@@ -4,6 +4,13 @@ using namespace std;
 
 Resistor::Resistor(string name, double resistance, Connection& a, Connection& b) : Component(name, a, b), resistance{resistance} {}
 
+<<<<<<< HEAD
+=======
+string Resistor::get_name() const {
+    return name;
+}
+
+>>>>>>> 077dcee4a4fdd6224ae6fe1a9022cba731b92b42
 double Resistor::get_current() const {
         //voltage / resistance
     double voltage{get_voltage()};
