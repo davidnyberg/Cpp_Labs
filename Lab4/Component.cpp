@@ -9,3 +9,8 @@ double Component::get_voltage() const {
     return abs(a.charge - b.charge);
 }
 
+std::string Component::get_name() const {
+    return name;
+}
+
+

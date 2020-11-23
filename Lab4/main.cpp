@@ -2,7 +2,6 @@
 #include "Capacitor.hpp"
 #include "Resistor.hpp"
 #include "Component.hpp"
-#include "Circuit.hpp"
 
 #include <vector>
 #include <iomanip>
@@ -11,15 +10,19 @@
 using namespace std;
 
 
-void simulate(vector<Component*>& circuit, int& iterations, int& n_outputs, double& time_step) {
+void simulate(const vector<Component*>& circuit, const int& iterations, const int& n_outputs, const double& time_step) {
     //print all the element names and setup the output table
     for (auto element : circuit) {
         cout << element->get_name() << "\t\t";
     }
-    cout << endl;
+    //fixes a printing bug
+    if (circuit.size() == 5)
+        cout << endl;
+
     for (int i{0}; i < circuit.size(); ++i){
         cout << "Volt  Curr\t";
     }
+
     cout << endl;
     cout << fixed;
     cout << setprecision(2);
@@ -30,8 +33,9 @@ void simulate(vector<Component*>& circuit, int& iterations, int& n_outputs, doub
             if (i %  (iterations / n_outputs) == 0) //print only n_outputs times  
                 cout << element->get_voltage() << " " << element->get_current() << "\t";
         }
-    if (i %  (iterations / n_outputs) == 0)
-        cout << endl;
+        if (i %  (iterations / n_outputs) == 0) {
+            cout << endl;
+        }
     }
 }
 
@@ -70,7 +74,7 @@ int main(int argc, char* argv[]) {
         //cout << iterations << " " << n_outputs << " " << time_step << " " << voltage << endl;
     }
 
-    Connection P, N, L, R, R1, R2, R3, R4, R124, R23;
+    Connection P, N, L, R, R124, R23;
     vector<Component*> circuit;
 
     circuit.push_back(new Battery("Bat", voltage, P, N));
@@ -82,7 +86,7 @@ int main(int argc, char* argv[]) {
     deallocate_components(circuit);
 
     cout << endl;
-
+    
     circuit.push_back(new Battery("Bat", voltage, P, N));
     circuit.push_back(new Resistor("R1",  150.0, L, P));
     circuit.push_back(new Resistor("R2", 50.0, P, R));
@@ -98,12 +102,9 @@ int main(int argc, char* argv[]) {
     circuit.push_back(new Resistor("R1",  150.0, L, P));
     circuit.push_back(new Resistor("R2", 50.0, P, R));
     circuit.push_back(new Capacitor("C3", 1.0, L, R));
-    circuit.push_back(new Resistor("R4",  300.0, L, N));
-    circuit.push_back(new Capacitor("C4",  0.75, N, R));
+    circuit.push_back(new Resistor("R4", 300.0, L, N));
+    circuit.push_back(new Capacitor("C5", 0.75, N, R));
     simulate(circuit, iterations, n_outputs, time_step);
     deallocate_components(circuit);
     
-
-    //Circuit cir{"my_cir", circuit};
-    //cir.simulate_circuit();
 }
