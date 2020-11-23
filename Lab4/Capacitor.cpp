@@ -4,13 +4,6 @@ using namespace std;
 
 Capacitor::Capacitor(std::string name, double fahrad, Connection& a, Connection& b) : Component(name, a, b), fahrad{fahrad} {}
 
-<<<<<<< HEAD
-=======
-string Capacitor::get_name() const {
-    return name;
-}
-
->>>>>>> 077dcee4a4fdd6224ae6fe1a9022cba731b92b42
 void Capacitor::set_connection_values(const double& timestep) {
     //cout << "setting connection values a and b" << endl;
     //will drain its most positive terminal of some positive charge, 
