@@ -2,16 +2,9 @@
 #include <vector>
 #include <fstream>
 #include <map>
-
+#include <algorithm>
 using namespace std;
 
-
-
-void validate(string word) {
-    for (auto it = word.begin(); it != word.end(); ++it) {
-        cout << *it << endl;
-    }
-}
 
 int main(int argc, char* argv[]) {
 
@@ -39,16 +32,36 @@ int main(int argc, char* argv[]) {
 
     cout << "Opening: " << file_name << endl;
 
-    ifstream file;
-    file.open(file_name);
-    string word;
+    ifstream file{file_name};
+    
+    /*
+    istream_iterator<string> file_stream{file};
+    istream_iterator<string> end_of_stream;
+    vector<string> potential_words{file_stream, end_of_stream};
+    */
+
+
+    string word{};
     while(file >> word) {
-        word_list[word] += 1;
+        word_list[word]++;
     }
 
-    for (auto& w: word_list) {
-        //cout << w.first << ":" << w.second << ' ';
-        validate(w.first);
+    vector<string> cleaned_words{};
+    
+    auto strip_junk = [] (auto& pair) -> string {
+        //we cannot edit the key of a map, we need to save a temporary pair.first value
+        string temp_word{pair.first};
+        auto found{temp_word.find_first_of("(")};
+        temp_word.erase(0, found + 1);
+        return temp_word;
+    };
+    
+    transform(word_list.begin(), word_list.end(), back_inserter(cleaned_words), strip_junk);
+    
+    
+    for (auto word : cleaned_words) {
+        cout << word << " " << endl;
     }
+    
     cout << endl;
 }
