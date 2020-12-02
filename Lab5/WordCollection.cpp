@@ -3,6 +3,7 @@
 #include <fstream>
 #include <map>
 #include <algorithm>
+#include <string>
 using namespace std;
 
 
@@ -48,11 +49,22 @@ int main(int argc, char* argv[]) {
 
     vector<string> cleaned_words{};
     
+
+    //some nested lambda functions
     auto strip_junk = [] (auto& pair) -> string {
         //we cannot edit the key of a map, we need to save a temporary pair.first value
         string temp_word{pair.first};
-        auto found{temp_word.find_first_of("(")};
-        temp_word.erase(0, found + 1);
+
+        //remove leading junk
+        temp_word.erase(remove_if(temp_word.begin(), temp_word.begin() + 1, [](char x){
+            return x == '(' || x == '\'' || x == '\"'; }
+                                ), temp_word.begin() + 1);
+
+        //remove trailing junk
+        temp_word.erase(remove_if(temp_word.end()-1, temp_word.end(), [](char x){
+            return x == '!' || x == '?' || x == ';' || x == ',' || x == ':' || x == '.' || x == '\"' || x == '\'' || x == ')'; }
+                                ), temp_word.end());
+
         return temp_word;
     };
     
