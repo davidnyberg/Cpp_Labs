@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
     }
 
 
-    map<string, int> word_list;
+    //map<string, int> word_list;
 
     cout << "Opening: " << file_name << endl;
 
@@ -41,39 +41,51 @@ int main(int argc, char* argv[]) {
     vector<string> potential_words{file_stream, end_of_stream};
     */
 
-
+    vector<string> raw_words;
     string word{};
     while(file >> word) {
-        word_list[word]++;
+        raw_words.push_back(word);
     }
 
     vector<string> cleaned_words{};
+    vector<string> validated_words{};
     
-
-    //some nested lambda functions
-    auto strip_junk = [] (auto& pair) -> string {
-        //we cannot edit the key of a map, we need to save a temporary pair.first value
-        string temp_word{pair.first};
+    //clean words
+    transform(raw_words.begin(), raw_words.end(), back_inserter(cleaned_words), [] (auto& temp_word) -> string {
 
         //remove leading junk
-        temp_word.erase(remove_if(temp_word.begin(), temp_word.begin() + 1, [](char x){
-            return x == '(' || x == '\'' || x == '\"'; }
+        temp_word.erase(remove_if(temp_word.begin(), temp_word.begin() + 1, [](auto& x){
+            return x == '(' || x == '\'' || x == '\"' || x == '-'; }
                                 ), temp_word.begin() + 1);
 
         //remove trailing junk
-        temp_word.erase(remove_if(temp_word.end()-1, temp_word.end(), [](char x){
-            return x == '!' || x == '?' || x == ';' || x == ',' || x == ':' || x == '.' || x == '\"' || x == '\'' || x == ')'; }
+        temp_word.erase(remove_if(temp_word.end()-1, temp_word.end(), [](auto& x){
+            return x == '!' || x == '?' || x == ';' || x == ',' || x == ':' || x == '.' || x == '\"' || x == '\'' || x == ')' || x == '-'; }
                                 ), temp_word.end());
 
-        return temp_word;
-    };
+        //TODO: check for 's case and remove 
+        //!!! doesnt work correctly
+        temp_word.erase(remove_if(temp_word.end()-2, temp_word.end(), [](auto& x){
+            return  x == '\''; }
+                                ), temp_word.end());
+        
+        return temp_word;}
+    );
     
-    transform(word_list.begin(), word_list.end(), back_inserter(cleaned_words), strip_junk);
-    
-    
+    //remove short words >= 3 chars
+    cleaned_words.erase(remove_if(cleaned_words.begin(), cleaned_words.end(), [](auto& word){
+        return word.length() < 3;
+    }), cleaned_words.end());
+
+    //remove word if it contains numbers
+    cleaned_words.erase(remove_if(cleaned_words.begin(), cleaned_words.end(), [](auto& word){
+        return any_of(word.begin(), word.end(), ::isdigit);
+    }), cleaned_words.end());
+
+   // transform(cleaned_words.begin(), cleaned_words.end(), back_inserter(validated_words), [] (auto& temp_word) -> string {}
+
     for (auto word : cleaned_words) {
         cout << word << " " << endl;
     }
     
-    cout << endl;
 }
