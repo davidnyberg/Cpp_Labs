@@ -7,19 +7,61 @@
 #include <iterator>
 using namespace std;
 
+void print_results(string& arg, int& n, map<string, int>& container) {
+    if (arg == "-a") {
+        for_each(container.begin(), container.end(), [](auto pair) { cout << pair.first << " " << pair.second << "\n"; });
+    }
 
+    if (arg == "-f") {
+        cout << "in -f\n";
+    }
+
+    if (arg == "-o") {
+        cout << "in -o\n";
+    }
+}
 int main(int argc, char* argv[]) {
 
     //store cmd line args 
     vector<string> args {argv, argv + argc};
-
-    /*
+    int N{0};
+    string argument{};
+    
     if (argc == 1) {
         cerr << "Error: No arguments given." << endl;
         cout << "Usage: ./a.out FILE [-a] [-f] [-o N]" << endl;
         return 1;
     }
-    */
+    else if (argc == 2) {
+        cerr << "Error: Second argument missing or invalid." << endl;
+        cout << "Usage: ./a.out FILE [-a] [-f] [-o N]" << endl;
+        return 1;
+    }
+    else if (argc == 3) {
+        argument = {args[2]};
+        cout << "Gave arg " << argument << endl;
+    } 
+    else if (argc == 4) {
+        argument = {args[2]};
+        cout << "Gave arg " << argument << endl;
+
+        try {
+            N = {stoi(args[3])};
+        } catch(invalid_argument& error) {
+            cerr << "Error: invalid_argument at: " << error.what() << endl;
+            return 1;
+        }
+        cout << N << endl;
+    } 
+    else {
+        cerr << "Too many arguments" << endl;
+        return 1;
+    }
+
+    
+    
+    
+
     string file_name{};
     try {
         file_name = {args[1]};
@@ -58,7 +100,12 @@ int main(int argc, char* argv[]) {
 
         return temp_word;}
     );
-    
+
+    cout << "cleaned words: "; 
+    for (auto i : cleaned_words) {
+        cout << i << " ";
+    }
+    cout << '\n';
     //validate words
     transform(cleaned_words.begin(), cleaned_words.end(), back_inserter(validated_words), [] (auto temp_word) -> string {
 
@@ -74,19 +121,23 @@ int main(int argc, char* argv[]) {
         return temp_word;}
     );
 
+    
+
     validated_words.erase(remove_if(validated_words.begin(), validated_words.end(), [](auto& word){
         return word.length() < 3; }), validated_words.end());
 
+    cout << "validated words: "; 
+    for (auto i : validated_words) {
+        cout << i << " ";
+    }
+    cout << '\n';
 
     //create a map of the validated words
     map<string, int> word_list{};
 
-    //transform(validated_words.begin(), validated_words.end(), std::inserter(word_list, word_list.end()), [](const string& s) { return std::make_pair(s, 1); });
-
     for_each(validated_words.begin(), validated_words.end(), [&word_list](auto& word){ word_list[word]++; });
 
-    for (auto word : word_list) {
-        cout << word.first << " " << word.second << endl;
-    }
+
+    print_results(argument, N, word_list);
     
 }
