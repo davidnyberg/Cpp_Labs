@@ -56,8 +56,6 @@ int main(int argc, char* argv[]) {
             temp_word.erase(temp_word.length() - 2);
         }
 
-
-
         return temp_word;}
     );
     
@@ -71,17 +69,24 @@ int main(int argc, char* argv[]) {
             temp_word.erase(temp_word.begin(), temp_word.end());
         }
 
+        transform(temp_word.begin(), temp_word.end(), temp_word.begin(), ::tolower);
+
         return temp_word;}
     );
 
-   validated_words.erase(remove_if(validated_words.begin(), validated_words.end(), [](auto& word){
+    validated_words.erase(remove_if(validated_words.begin(), validated_words.end(), [](auto& word){
         return word.length() < 3; }), validated_words.end());
 
 
-    //now we have all the validated words in a vector
+    //create a map of the validated words
+    map<string, int> word_list{};
 
-    for (auto word : validated_words) {
-        cout << word << " " << endl;
+    //transform(validated_words.begin(), validated_words.end(), std::inserter(word_list, word_list.end()), [](const string& s) { return std::make_pair(s, 1); });
+
+    for_each(validated_words.begin(), validated_words.end(), [&word_list](auto& word){ word_list[word]++; });
+
+    for (auto word : word_list) {
+        cout << word.first << " " << word.second << endl;
     }
     
 }
