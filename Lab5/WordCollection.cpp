@@ -20,27 +20,40 @@ void print_results(string& arg, map<string, int>& container) {
         sort(values.begin(),values.end(),cmp);
         
         //find longest word
-        //this needs to be fixed
-        //auto max{*max_element(container.begin(), container.end())};
-
-        for_each(values.begin(), values.end(), [](auto pair) { cout << setw(10) << pair.first << " " << pair.second << "\n"; });
+        auto max{*max_element(container.begin(), container.end())};
+        //cout << max.first.length() << endl;
+        for_each(values.begin(), values.end(), [&max](auto pair) { cout << setw(max.first.length()) << pair.first << " " << pair.second << "\n"; });
     }
 }
 
 //prints in original order, with N as formater
 void print_o_result(vector<string>& vec, int& n){
     int line_len{0};
-    for_each(vec.begin(), vec.end(), [](auto& word){
-        cout << word << "\n";
+
+    for_each(vec.begin(), vec.end(), [&](auto& word){
+        int tmp_len = word.length();
+        if (line_len + tmp_len < n) {
+            cout << word << " ";
+            //plus 1 for space added
+            line_len += tmp_len + 1;
+        }
+        else {
+            cout << "\n";
+            cout << word << " ";
+            line_len = tmp_len + 1;
+        }
+
     });
+    cout << endl;
 }
+
 
 bool is_lead_junk(char& c){
     return c == '(' || c == '\'' || c == '\"';
 }
 
 bool is_trail_junk(char& c){
-    return c == '!' || c == '?' || c == ',' || c == '.' || c == ':' || c == '\"' || c == '\'' || c == ')';
+    return c == '!' || c == '?' || c == ',' || c == '.' || c == ':' || c == '\"' || c == '\'' || c == ')' || c == ';';
 }
 
 int main(int argc, char* argv[]) {
@@ -81,7 +94,6 @@ int main(int argc, char* argv[]) {
     }
 
     
-
     string file_name{};
     try {
         file_name = {args[1]};
@@ -92,16 +104,12 @@ int main(int argc, char* argv[]) {
     }
 
 
-    cout << "Opening: " << file_name << endl;
-
     ifstream file{file_name};
     
-
     // The default-constructed std::istream_iterator is known as the end-of-stream iterator
     // No input calls default constructor -> end of stream. 
     istream_iterator<string> file_stream{file}, end;
     vector<string> raw_words{file_stream, end};
-
 
     vector<string> cleaned_words{};
     vector<string> validated_words{};
@@ -111,11 +119,8 @@ int main(int argc, char* argv[]) {
     //clean words
     transform(raw_words.begin(), raw_words.end(), back_inserter(cleaned_words), [] (string& temp_word) -> string {
         //remove leading junk
-
-        //temp_word.erase(0, temp_word.find_first_not_of("\'\"("));
-
         //give erase index of where any char except the 'junk' is
-        auto it = find_if(temp_word.begin(), temp_word.end(), [](auto c) { 
+        auto it = find_if_not(temp_word.begin(), temp_word.end(), [](auto c) { 
             return is_lead_junk(c);});
         if (it != temp_word.end()) {
             temp_word.erase(temp_word.begin(), it);
@@ -124,11 +129,11 @@ int main(int argc, char* argv[]) {
         //remove trailing junk, erase does not support reverse iterators, .base fixes this
         //Source: https://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator
 
-        auto rit = find_if(temp_word.rbegin(), temp_word.rend(), [](auto c){ return is_trail_junk(c);});
+        auto rit = find_if_not(temp_word.rbegin(), temp_word.rend(), [](auto c){ return is_trail_junk(c);});
 
         if (rit != temp_word.rend()){
             //cout << *rit << endl;
-            temp_word.erase((rit).base() - 1, temp_word.end());
+            temp_word.erase((rit).base(), temp_word.end());
         }
 
         //source: http://www.cplusplus.com/forum/general/49936/

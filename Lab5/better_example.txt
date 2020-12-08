@@ -1,9 +1,6 @@
 .Passing.words:
 okay
 okej-good,
-cAApItal
-leTTTer
-ChHEKCK
 okej-good-nice
 'okay'.
 "good":
