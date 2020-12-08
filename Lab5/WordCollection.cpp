@@ -54,32 +54,31 @@ int main(int argc, char* argv[]) {
     transform(raw_words.begin(), raw_words.end(), back_inserter(cleaned_words), [] (auto& temp_word) -> string {
 
         //remove leading junk
-        temp_word.erase(remove_if(temp_word.begin(), temp_word.begin() + 1, [](auto& x){
-            return x == '(' || x == '\'' || x == '\"' || x == '-'; }
-                                ), temp_word.begin() + 1);
+        temp_word.erase(temp_word.begin(), find_if(temp_word.begin(), temp_word.end(), [](auto c) { return isalpha(c);}));
 
-        //remove trailing junk
-        temp_word.erase(remove_if(temp_word.end()-1, temp_word.end(), [](auto& x){
-            return x == '!' || x == '?' || x == ';' || x == ',' || x == ':' || x == '.' || x == '\"' || x == '\'' || x == ')' || x == '-'; }
-                                ), temp_word.end());
 
-        //TODO: check for 's case and remove 
-        //!!! doesnt work correctly
-        temp_word.erase(remove_if(temp_word.end()-2, temp_word.end(), [](auto& x){
-            return  x == '\''; }
-                                ), temp_word.end());
-        
+        //remove trailing junk, erase does not support reverse iterators, .base fixes this
+        auto rit = find_if(temp_word.rbegin(), temp_word.rend(), [](auto c){ return isalpha(c);});
+        temp_word.erase((rit).base(), temp_word.end());
+
         return temp_word;}
     );
+
+    //cleaned_words.erase(find_if(temp_word.end(), temp_word.begin(), [](auto c){ return isalpha(c);}), temp_word.end())
     
     //remove short words >= 3 chars
     cleaned_words.erase(remove_if(cleaned_words.begin(), cleaned_words.end(), [](auto& word){
-        return word.length() < 3;
-    }), cleaned_words.end());
+        return word.length() < 3; }), cleaned_words.end());
+
+        for (auto word : cleaned_words) {
+        cout << word << " " << endl;
+    }
 
     //remove word if it contains numbers
     cleaned_words.erase(remove_if(cleaned_words.begin(), cleaned_words.end(), [](auto& word){
-        return any_of(word.begin(), word.end(), ::isdigit);
+        return any_of(word.begin(), word.end(), [](auto x) {
+            return !isalpha(x) && x != '-';
+        });
     }), cleaned_words.end());
 
    // transform(cleaned_words.begin(), cleaned_words.end(), back_inserter(validated_words), [] (auto& temp_word) -> string {}

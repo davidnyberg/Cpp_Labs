@@ -1,0 +1,16 @@
+.Passing.words:
+okay
+okej-good,
+okej-good-nice
+'okay'.
+"good":
+"("okay-good's;
+'("(okay-good's?)")'!
+.Not.passing.words:
+"(wrong's's)"
+wrong--no
+wrong-no--nono
+(wrong()no)
+"(((no)!?"
+"("wrongno)#
+!(wrong-no)!
