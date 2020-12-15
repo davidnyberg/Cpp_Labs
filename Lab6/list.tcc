@@ -12,9 +12,7 @@ void List<T>::insert(T const& d)
 //-----------------------------------------------------//
 // Important copy and assignment stuff
 template<typename T>
-typename List<T>::Link*
-
-List<T>::Link::clone(Link const* dolly)
+typename List<T>::Link* List<T>::Link::clone(Link const* dolly)
 {
   if ( dolly != nullptr )
     return new Link(dolly->data, clone(dolly->next));
@@ -42,6 +40,7 @@ List<T>::List(List&& l)
   first = l.first;
   l.first = nullptr;
 }
+
 template<typename T>
 List<T>& List<T>::operator=(List const& rhs)
 {
@@ -67,32 +66,39 @@ List<T>& List<T>::operator=(List&& rhs)
 
 /*-------new methods------*/
 
+
 template<typename T>
-typename List<T>::Iterator const List<T>::begin()  {
+typename List<T>::Iterator List<T>::begin() const {
+  //Returns an iterator to the beginning of the given container
     return Iterator{first};
 }
 
 template<typename T>
-typename List<T>::Iterator const List<T>::end()  {
+typename List<T>::Iterator List<T>::end() const {
+  //Returns an iterator to the end after last element (nullptr)
     return Iterator{nullptr};
 }
-
 template<typename T>
-bool const List<T>::Iterator::operator!=(Iterator const it) {
+bool List<T>::Iterator::operator!=(Iterator const& it) const {
   return current_position != it.current_position;
 }
 
 template<typename T>
 typename List<T>::Iterator& List<T>::Iterator::operator++() {
     if (current_position != nullptr)
-      current_position = current_position->next;
+      this->current_position = {current_position->next};
     return *this;
 }
-
 
 template<typename T>
 T& List<T>::Iterator::operator*() const {
     return current_position->data;
 }
 
-//missing ostream
+//lists ostream operator
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const List<T>& list) {
+  for (auto it{list.begin()}; it != list.end(); ++it)
+          os << *it << " ";
+  return os;
+}

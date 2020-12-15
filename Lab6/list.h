@@ -4,6 +4,11 @@
 #include <iostream>
 #include <string>
 
+template<typename T>
+class List; //forward declaration
+
+template<typename T> // declaration
+std::ostream& operator<<(std::ostream&, const List<T>&);
 
 template<typename T>
 class List
@@ -18,7 +23,11 @@ public:
   List(List&&);
   List& operator=(List const&);
   List& operator=(List&&);
-    
+
+  //source: https://en.cppreference.com/w/cpp/language/friend
+  //template specialization of << with T
+  friend std::ostream& operator<< <T> (std::ostream& os, const List&);
+
 private:
 
   class Link
@@ -43,28 +52,27 @@ public:
 
   using value_type = T;
 
-  // Suitable place to add things...
   class Iterator {
     public:
+      //lets List class access private member variables
       friend class List;
 
-      Iterator (Link* link) : current_position(link) {}
-
-      bool const operator!=(Iterator const it);
+      bool operator!=(Iterator const& it) const;
       Iterator& operator++();
       T& operator*() const;
 
 
     private:
+      //private constructor so only friend class(List) can create a list iterator
+      Iterator (Link* link) : current_position(link) {}
       Link* current_position{nullptr};
 
   };
 
-    
-      Iterator const begin();
-      Iterator const end();
+    Iterator begin() const;
+    Iterator end() const;
 
 };
 
-#include "list.cc"
+#include "list.tcc"
 #endif

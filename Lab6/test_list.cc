@@ -51,7 +51,7 @@ int main()
     }
     cout << endl;
 
-//    cout << list << endl;
+    cout << list << endl;
   }
 
   cin.clear();
@@ -81,7 +81,7 @@ int main()
     }
     cout << endl;
     
-    //cout << list << endl;
+    cout << list << endl;
   }
 #endif
   
