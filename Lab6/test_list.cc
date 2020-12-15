@@ -4,11 +4,11 @@
 
 using namespace std;
 
-#define SOLUTION 0 // Change to 1 when completely done
+#define SOLUTION 1 // Change to 1 when completely done
 
 int main()
 {
-#if SOLUTION == 1
+#if SOLUTION == 0
   
   // Minimal code to use the list
 

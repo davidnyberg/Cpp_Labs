@@ -4,11 +4,11 @@
 #include <iostream>
 #include <string>
 
-template<typename T>
-class List; //forward declaration
+//template<typename T>
+//class List; //forward declaration
 
-template<typename T> // declaration
-std::ostream& operator<<(std::ostream&, const List<T>&);
+//template<typename T> // declaration
+//std::ostream& operator<<(std::ostream&, const List<T>&);
 
 template<typename T>
 class List
@@ -25,8 +25,8 @@ public:
   List& operator=(List&&);
 
   //source: https://en.cppreference.com/w/cpp/language/friend
-  //template specialization of << with T
-  friend std::ostream& operator<< <T> (std::ostream& os, const List&);
+  template<typename T2>
+  friend std::ostream& operator<<(std::ostream& os, const List&);
 
 private:
 
