@@ -54,6 +54,8 @@ int main()
     cout << list << endl;
   }
 
+  //clearerr fixes issue where cin.clear() does not remove EOF
+  std::clearerr(stdin);
   cin.clear();
   
   // example of using the list with std::string
